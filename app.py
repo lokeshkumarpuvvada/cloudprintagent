@@ -1396,7 +1396,7 @@ st.markdown(
 st.html(
     """
     <aside class="chat-consent" id="optional-chat-consent" aria-label="Optional live chat">
-        <p>Optional live chat is provided by Tidio. Enabling it connects to Tidio, which may process technical data. See the <a href="https://www.tidio.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Tidio privacy policy</a>.</p>
+        <p>Optional live chat is provided by Tidio. Enabling it may share page and device data with Tidio. See its <a href="https://www.tidio.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.</p>
         <button type="button">Enable live chat</button>
         <span class="chat-consent-status" role="status" aria-live="polite"></span>
     </aside>
@@ -2118,8 +2118,9 @@ st.markdown(
                         privacy terms. The website host may process requests or technical logs. The page also requests
                         fonts from Google Fonts and images from GitHub Pages; those providers may receive standard
                         connection data. The optional Tidio chat script is loaded only after you select “Enable live
-                        chat”; Tidio may then process technical data and messages under its privacy policy. Please do
-                        not submit passwords, access keys, or other sensitive information.
+                        chat”; its script can access page content, including visible form text, and may process
+                        technical data and messages under its privacy policy. Please do not submit passwords, access
+                        keys, or other sensitive information.
                     </p>
                     <p>
                         WhatsApp and phone icons are adapted from Font Awesome Free 6.7.2 by Fonticons, Inc. under
