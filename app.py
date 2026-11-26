@@ -1347,6 +1347,12 @@ st.markdown(
         color: #edf5fc;
         border-radius: 10px;
     }
+    label[data-testid="stWidgetLabel"],
+    label[data-testid="stWidgetLabel"] p {
+        color: #e8f2fb !important;
+        font-weight: 700 !important;
+    }
+    label[data-testid="stWidgetLabel"] p { text-shadow: 0 1px 2px rgba(0, 0, 0, .45); }
     hr { border-color: #192b3e; }
     </style>
     """,
@@ -1871,7 +1877,7 @@ for service in detailed_services:
         f'</div></div></section>'
     )
 
-st.html("\n".join(detail_modals))
+st.markdown("\n".join(detail_modals), unsafe_allow_html=True)
 
 with st.container(key="estimator_section"):
     st.markdown(
