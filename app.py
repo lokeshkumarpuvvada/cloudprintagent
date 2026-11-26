@@ -423,6 +423,20 @@ st.markdown(
         border-radius: 13px;
         background: rgba(12, 29, 46, .34);
         backdrop-filter: blur(14px);
+        color: inherit;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+    }
+    .status-row:hover {
+        border-color: color-mix(in srgb, var(--status-accent) 48%, rgba(201, 230, 247, .5));
+        background: rgba(35, 63, 84, .54);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+        transform: translateY(-1px);
+    }
+    .status-row:focus-visible {
+        outline: 2px solid #78dfd0;
+        outline-offset: 3px;
     }
     .status-icon {
         display: grid;
@@ -450,6 +464,24 @@ st.markdown(
         color: #52d59a;
         font-size: .78rem;
         font-weight: 900;
+    }
+    .status-link-indicator {
+        display: grid;
+        place-items: center;
+        flex: 0 0 20px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid rgba(186, 217, 241, .24);
+        border-radius: 50%;
+        background: rgba(210, 230, 248, .08);
+        color: #d7e8f5;
+        font-size: .72rem;
+        font-weight: 800;
+        transition: background 150ms ease, border-color 150ms ease;
+    }
+    .status-row:hover .status-link-indicator {
+        border-color: rgba(205, 248, 243, .64);
+        background: rgba(72, 158, 177, .28);
     }
     .status-footer {
         padding: .72rem .8rem;
@@ -522,65 +554,79 @@ st.markdown(
     }
     .service-card {
         display: flex;
+        flex: 0 0 calc(25% - 1.5rem);
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
         min-width: 0;
-        min-height: 0;
-        height: 100%;
         flex-direction: column;
-        padding: 1.35rem;
+        height: 360px;
+        overflow: hidden;
         border: 1px solid rgba(123, 164, 198, .18);
         border-top: 2px solid var(--card-accent, #35b8c2);
         border-radius: 17px;
-        background: linear-gradient(145deg, rgba(38, 67, 94, .46), rgba(7, 19, 32, .34));
-        box-shadow: 0 14px 34px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .14);
-        backdrop-filter: blur(20px) saturate(150%);
-        transition: border-color 160ms ease, background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+        background: linear-gradient(150deg, rgba(27, 46, 65, .98), rgba(10, 22, 36, .98));
+        box-shadow: 0 14px 34px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .14);
+        transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+    }
+    .service-card-image {
+        display: block;
+        width: 100%;
+        min-height: 0;
+        flex: 0 0 40%;
+        object-fit: cover;
+        border-bottom: 1px solid rgba(186, 217, 241, .14);
+        transition: transform 300ms ease;
+    }
+    .service-card-content {
+        display: flex;
+        width: 100%;
+        min-width: 0;
+        flex: 1;
+        flex-direction: column;
+        justify-content: flex-start;
+        padding: 1rem;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .04);
     }
     .service-card:hover {
         border-color: color-mix(in srgb, var(--card-accent, #35b8c2) 52%, rgba(201, 230, 247, .5));
-        background: linear-gradient(145deg, rgba(49, 82, 108, .58), rgba(10, 27, 43, .48));
         box-shadow: 0 16px 36px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .2);
         transform: translateY(-3px);
     }
+    .service-card:hover .service-card-image { transform: scale(1.045); }
     .service-preview-grid {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        display: flex;
         align-items: stretch;
         gap: 1rem;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        padding: .2rem .1rem .45rem;
+        scroll-padding-inline: .1rem;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        -webkit-overflow-scrolling: touch;
     }
-    .service-icon {
-        display: grid;
-        place-items: center;
-        width: 58px;
-        height: 58px;
-        margin-bottom: 1rem;
-        border: 1px solid color-mix(in srgb, var(--card-accent, #35b8c2) 58%, #fff);
-        border-radius: 17px;
-        background:
-            radial-gradient(circle at 28% 18%, color-mix(in srgb, var(--card-accent, #35b8c2) 42%, #fff), transparent 68%),
-            linear-gradient(145deg, color-mix(in srgb, var(--card-accent, #35b8c2) 34%, #0e1d2e), #111b30);
-        box-shadow:
-            0 10px 26px color-mix(in srgb, var(--card-accent, #35b8c2) 34%, transparent),
-            inset 0 1px 0 rgba(255, 255, 255, .18);
-        font-size: 2rem;
-        text-shadow: none;
-        transition: transform 180ms ease, box-shadow 180ms ease;
-    }
-    .service-card:hover .service-icon {
-        transform: translateY(-3px) scale(1.06);
-        box-shadow:
-            0 14px 32px color-mix(in srgb, var(--card-accent, #35b8c2) 44%, transparent),
-            inset 0 1px 0 rgba(255, 255, 255, .22);
-    }
+    .service-preview-grid::-webkit-scrollbar { display: none; }
     @media (prefers-reduced-motion: reduce) {
-        .service-icon { transition: none; }
-        .service-card:hover .service-icon { transform: none; }
+        .service-preview-grid { scroll-behavior: auto; }
+        .service-card, .service-card-image { transition: none; }
     }
-    .service-card h3 { margin: .15rem 0 .45rem; color: var(--card-accent, #eef6ff); font-size: 1.05rem; }
-    .service-card p { flex: 1; margin: 0 0 .9rem; color: #b0bfce; line-height: 1.6; font-size: .9rem; }
+    .service-card h3 { margin: 0 0 .45rem; color: #f5f8fc; font-size: 1.05rem; line-height: 1.25; }
+    .service-card p {
+        display: -webkit-box;
+        overflow: hidden;
+        margin: 0 0 .85rem;
+        color: #d3deea;
+        font-size: .84rem;
+        line-height: 1.5;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+    }
     .service-card-link {
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: .5rem;
         width: 100%;
         min-height: 42px;
@@ -596,6 +642,10 @@ st.markdown(
         font-weight: 800;
         text-decoration: none;
         transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+    }
+    .service-card-link:focus-visible {
+        outline: 2px solid #78dfd0;
+        outline-offset: 3px;
     }
     .service-card-link:hover {
         border-color: color-mix(in srgb, var(--card-accent, #35b8c2) 65%, transparent);
@@ -1092,7 +1142,7 @@ st.markdown(
         .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; }
         .footer-grid > :last-child { grid-column: 1 / -1; }
         .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .service-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .service-card { flex-basis: calc(33.333% - 1rem); }
     }
     @container site-header (min-width: 961px) {
         .header-nav { grid-template-columns: repeat(8, max-content); }
@@ -1150,15 +1200,26 @@ st.markdown(
         .site-header { padding: .75rem; }
         .policy-dialog { padding: 1.3rem; }
         .warranty-panels { grid-template-columns: 1fr; }
-        .service-preview-grid { grid-template-columns: 1fr; }
+        .service-card { flex-basis: calc(50% - 1rem); height: 340px; }
         .section-heading .service-guide { border-radius: 14px; }
     }
     @media (max-width: 480px) {
         .footer-grid { grid-template-columns: 1fr; }
         .footer-grid > :last-child { grid-column: auto; }
-        .topbar { flex-direction: column; align-items: stretch; gap: .45rem; padding: .55rem .7rem; }
-        .topbar-info { justify-content: space-between; gap: .3rem .7rem; font-size: .74rem; }
-        .topbar .header-action { align-self: flex-end; }
+        .service-card { flex-basis: 90%; height: 340px; }
+        .topbar {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            grid-template-rows: auto auto;
+            align-items: center;
+            justify-content: stretch;
+            gap: .3rem .6rem;
+            padding: .55rem .7rem;
+        }
+        .topbar-info { display: contents; }
+        .topbar-phone { grid-column: 1; grid-row: 1; justify-self: start; white-space: nowrap; }
+        .topbar-location { grid-column: 1 / -1; grid-row: 2; }
+        .topbar > .header-action { grid-column: 2; grid-row: 1; justify-self: end; align-self: center; }
         .site-header { gap: .45rem; padding: .55rem .65rem; }
         .header-brand { min-width: 0; gap: .5rem; }
         .brand-mark { width: 40px; height: 40px; border-radius: 11px; }
@@ -1175,7 +1236,6 @@ st.markdown(
         .hero { padding: 3rem 1.4rem; }
         .hero::after { right: -13rem; }
         .detail-grid { grid-template-columns: 1fr; }
-        .service-preview-grid { grid-template-columns: 1fr; }
         .detail-header { gap: .75rem; }
         .detail-icon { flex-basis: 46px; width: 46px; height: 46px; font-size: 1.5rem; }
         .detail-group:target { padding: .5rem; }
@@ -1317,26 +1377,30 @@ with hero_right:
                 <span class="online"><span class="online-dot" aria-hidden="true"></span>ONLINE</span>
             </div>
             <div class="status-rows">
-                <div class="status-row" style="--status-accent:#ff8b98">
+                <a class="status-row" href="#cyber-security-details" aria-haspopup="dialog" aria-label="View Firewall and Cyber Security details and related catalog" style="--status-accent:#ff8b98">
                     <span class="status-icon" aria-hidden="true">🛡️</span>
                     <span class="status-copy"><strong>Firewall &amp; Cyber Security</strong><small>Fortinet, Sophos, IPS/IDS &amp; VPN</small></span>
                     <span class="status-check" aria-label="Available">✓</span>
-                </div>
-                <div class="status-row" style="--status-accent:#63c8e8">
+                    <span class="status-link-indicator" aria-hidden="true">↗</span>
+                </a>
+                <a class="status-row" href="#office-lan-details" aria-haspopup="dialog" aria-label="View Office LAN and Tally Sharing details and related catalog" style="--status-accent:#63c8e8">
                     <span class="status-icon" aria-hidden="true">🖧</span>
                     <span class="status-copy"><strong>Office LAN &amp; Tally Sharing</strong><small>Centralized server &amp; multi-system setup</small></span>
                     <span class="status-check" aria-label="Available">✓</span>
-                </div>
-                <div class="status-row" style="--status-accent:#67d6a5">
+                    <span class="status-link-indicator" aria-hidden="true">↗</span>
+                </a>
+                <a class="status-row" href="#os-server-details" aria-haspopup="dialog" aria-label="View Windows and Linux server details and related catalog" style="--status-accent:#67d6a5">
                     <span class="status-icon" aria-hidden="true">🖥️</span>
                     <span class="status-copy"><strong>Windows &amp; Linux OS/Servers</strong><small>Active Directory, DNS, Hyper-V &amp; Ubuntu</small></span>
                     <span class="status-check" aria-label="Available">✓</span>
-                </div>
-                <div class="status-row" style="--status-accent:#f5bb60">
+                    <span class="status-link-indicator" aria-hidden="true">↗</span>
+                </a>
+                <a class="status-row" href="#advanced-connectivity-details" aria-haspopup="dialog" aria-label="View Mesh Wi-Fi and P2P networking details and related catalog" style="--status-accent:#f5bb60">
                     <span class="status-icon" aria-hidden="true">📶</span>
                     <span class="status-copy"><strong>Mesh Wi-Fi &amp; P2P Links</strong><small>Wireless links &amp; multi-WAN options</small></span>
                     <span class="status-check" aria-label="Available">✓</span>
-                </div>
+                    <span class="status-link-indicator" aria-hidden="true">↗</span>
+                </a>
             </div>
             <div class="status-footer">
                 <p>Need immediate network setup or AMC support in Guntur?</p>
@@ -1351,23 +1415,34 @@ with hero_right:
     )
 
 
+service_catalog_images = {
+    "cyber-security-details": ("45648.jpg",),
+    "office-lan-details": ("6468.jpg",),
+    "network-amc-details": ("2313.jpg",),
+    "antivirus-details": ("8648.jpg",),
+    "hardware-warranty-details": ("asd.jpg",),
+    "os-server-details": ("wrwqr.jpg",),
+    "advanced-connectivity-details": ("werewa.jpg",),
+}
+
 services = [
-    ("🛡️", "Cyber Security", "Firewall, VPN, access rules and threat monitoring.", "#ff7c83", "cyber-security-details"),
-    ("🖧", "Office LAN", "Cabling, Wi-Fi, Tally, printer and file sharing.", "#54c7e8", "office-lan-details"),
-    ("🧰", "Network AMC", "Routine health checks, troubleshooting and maintenance.", "#a78bfa", "network-amc-details"),
-    ("🔐", "Antivirus", "Endpoint protection, malware cleanup and safer browsing.", "#f5b95f", "antivirus-details"),
-    ("🖥️", "Windows & Linux", "Workstations, business servers and Linux support.", "#67d6a5", "os-server-details"),
-    ("📡", "Advanced Connectivity", "Mesh Wi-Fi, P2P links, branch VPN and multi-WAN.", "#ff8fc9", "advanced-connectivity-details"),
-    ("🛠️", "Hardware Warranty", "Registration, coverage checks and claim guidance.", "#67d6a5", "hardware-warranty-details"),
+    ("Cyber Security", "Firewall, VPN, access rules and threat monitoring.", "#ff7c83", "cyber-security-details"),
+    ("Office LAN", "Cabling, Wi-Fi, Tally, printer and file sharing.", "#54c7e8", "office-lan-details"),
+    ("Network AMC", "Routine health checks, troubleshooting and maintenance.", "#a78bfa", "network-amc-details"),
+    ("Antivirus", "Endpoint protection, malware cleanup and safer browsing.", "#f5b95f", "antivirus-details"),
+    ("Windows & Linux", "Workstations, business servers and Linux support.", "#67d6a5", "os-server-details"),
+    ("Advanced Connectivity", "Mesh Wi-Fi, P2P links, branch VPN and multi-WAN.", "#ff8fc9", "advanced-connectivity-details"),
+    ("Hardware Warranty", "Registration, coverage checks and claim guidance.", "#67d6a5", "hardware-warranty-details"),
 ]
 
 service_cards = "".join(
     f'<article class="service-card" style="--card-accent:{escape(color)}">'
-    f'<span class="service-icon" aria-hidden="true">{escape(icon)}</span>'
-    f'<h3>{escape(title)}</h3><p>{escape(description)}</p>'
-    f'<a class="service-card-link" href="#{escape(detail_id)}" aria-haspopup="dialog">'
-    f'<span>Explore service details</span><span aria-hidden="true">↗</span></a></article>'
-    for icon, title, description, color, detail_id in services
+    f'<img class="service-card-image" src="{IMAGE_BASE}/{escape(service_catalog_images[detail_id][0], quote=True)}" '
+    f'alt="{escape(title, quote=True)}" loading="lazy" decoding="async">'
+    f'<div class="service-card-content"><h3>{escape(title)}</h3><p>{escape(description)}</p>'
+    f'<a class="service-card-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" aria-label="View {escape(title, quote=True)} details">'
+    f'<span>Learn more</span></a></div></article>'
+    for title, description, color, detail_id in services
 )
 
 with st.container(key="services_section"):
@@ -1376,12 +1451,138 @@ with st.container(key="services_section"):
         <div class="section-heading" id="service-details">
             <span class="eyebrow">Our services</span>
             <h2>Complete IT services for your business</h2>
-            <p class="service-guide">Click any service card to explore features and related catalog images.</p>
+            <p class="service-guide">Cards move both ways automatically; hover, swipe, or use the mouse wheel to pause and browse.</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    st.markdown(f'<div class="service-preview-grid">{service_cards}</div>', unsafe_allow_html=True)
+    st.markdown(
+        f'<div class="service-preview-grid" id="service-carousel-track" role="region" aria-label="IT services, scroll horizontally to browse" tabindex="0">{service_cards}</div>',
+        unsafe_allow_html=True,
+    )
+    st.html(
+        """
+        <script>
+        (() => {
+            const initialize = () => {
+                const track = document.getElementById("service-carousel-track");
+                if (!track) return false;
+                if (track.dataset.carouselReady) return true;
+
+                const cards = Array.from(track.querySelectorAll(".service-card"));
+                if (!cards.length) return false;
+
+                const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+                let isVisible = false;
+                let pointerOver = false;
+                let focusWithin = false;
+                let direction = 1;
+                let autoplayTimer = null;
+                let resumeTimer = null;
+
+                const stopAutoplay = () => {
+                    if (autoplayTimer !== null) {
+                        clearInterval(autoplayTimer);
+                        autoplayTimer = null;
+                    }
+                };
+                const canAutoplay = () =>
+                    isVisible &&
+                    !pointerOver &&
+                    !focusWithin &&
+                    resumeTimer === null &&
+                    !reducedMotion.matches &&
+                    document.visibilityState === "visible";
+                const updateAutoplay = () => {
+                    if (!canAutoplay()) {
+                        stopAutoplay();
+                        return;
+                    }
+                    if (autoplayTimer !== null) return;
+
+                    autoplayTimer = setInterval(() => {
+                        const maxScroll = track.scrollWidth - track.clientWidth;
+                        if (maxScroll <= 1) return;
+
+                        const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+                        const step = cards[0].getBoundingClientRect().width + gap;
+                        const nextPosition = track.scrollLeft + direction * step;
+                        if (nextPosition >= maxScroll - 1) {
+                            direction = -1;
+                            track.scrollTo({ left: maxScroll, behavior: "smooth" });
+                        } else if (nextPosition <= 1) {
+                            direction = 1;
+                            track.scrollTo({ left: 0, behavior: "smooth" });
+                        } else {
+                            track.scrollTo({ left: nextPosition, behavior: "smooth" });
+                        }
+                    }, 3500);
+                };
+                const pauseForInteraction = () => {
+                    stopAutoplay();
+                    if (resumeTimer !== null) clearTimeout(resumeTimer);
+                    resumeTimer = setTimeout(() => {
+                        resumeTimer = null;
+                        updateAutoplay();
+                    }, 6000);
+                };
+
+                track.addEventListener("wheel", event => {
+                    pauseForInteraction();
+                    if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+                    const maxScroll = track.scrollWidth - track.clientWidth;
+                    const canScroll = event.deltaY > 0
+                        ? track.scrollLeft < maxScroll - 1
+                        : track.scrollLeft > 1;
+                    if (!canScroll) return;
+
+                    event.preventDefault();
+                    track.scrollBy({ left: event.deltaY, behavior: "auto" });
+                }, { passive: false });
+                track.addEventListener("pointerenter", () => {
+                    pointerOver = true;
+                    updateAutoplay();
+                });
+                track.addEventListener("pointerleave", () => {
+                    pointerOver = false;
+                    updateAutoplay();
+                });
+                track.addEventListener("pointerdown", pauseForInteraction);
+                track.addEventListener("keydown", pauseForInteraction);
+                track.addEventListener("focusin", () => {
+                    focusWithin = true;
+                    updateAutoplay();
+                });
+                track.addEventListener("focusout", event => {
+                    if (!track.contains(event.relatedTarget)) {
+                        focusWithin = false;
+                        updateAutoplay();
+                    }
+                });
+                document.addEventListener("visibilitychange", updateAutoplay);
+                reducedMotion.addEventListener("change", updateAutoplay);
+
+                const visibilityObserver = new IntersectionObserver(entries => {
+                    isVisible = entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= 0.25);
+                    updateAutoplay();
+                }, { threshold: [0, 0.25] });
+                visibilityObserver.observe(track);
+                track.dataset.carouselReady = "true";
+                return true;
+            };
+
+            if (!initialize()) {
+                const observer = new MutationObserver(() => {
+                    if (initialize()) observer.disconnect();
+                });
+                observer.observe(document.documentElement, { childList: true, subtree: true });
+                setTimeout(() => observer.disconnect(), 5000);
+            }
+        })();
+        </script>
+        """,
+        unsafe_allow_javascript=True,
+    )
 
 detailed_services = [
     {
@@ -1507,16 +1708,6 @@ catalog = [
    ("8648.jpg", "🛡️", "Antivirus & Internet Security", "Endpoint protection, safer browsing and online threat protection."),
 ]
 catalog_by_image = {image: (image, icon, title, description) for image, icon, title, description in catalog}
-service_catalog_images = {
-   "cyber-security-details": ("45648.jpg",),
-   "office-lan-details": ("6468.jpg",),
-   "network-amc-details": ("2313.jpg",),
-   "antivirus-details": ("8648.jpg",),
-   "hardware-warranty-details": ("asd.jpg",),
-   "os-server-details": ("wrwqr.jpg",),
-   "advanced-connectivity-details": ("werewa.jpg",),
-}
-
 detail_modals = []
 for service in detailed_services:
     feature_markup = "".join(
