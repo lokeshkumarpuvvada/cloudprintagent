@@ -1,11 +1,14 @@
+from datetime import date
 from urllib.parse import quote
 
 import streamlit as st
 
 
+COPYRIGHT_YEAR = date.today().year
 PHONE_DISPLAY = "+91 9885138489"
 PHONE_LINK = "919885138489"
 ADDRESS = "Guntur - 522002, Andhra Pradesh, India"
+APP_VERSION = "1.0"
 WHATSAPP_URL = f"https://wa.me/{PHONE_LINK}"
 IMAGE_BASE = "https://lokeshkumarpuvvada.github.io/hit"
 
@@ -26,47 +29,11 @@ st.markdown(
         font-family: 'Inter', 'Segoe UI', sans-serif !important;
     }
     .stApp {
-        position: relative;
-        isolation: isolate;
         background:
             radial-gradient(ellipse at 8% 10%, rgba(12, 118, 126, 0.14), transparent 34rem),
             radial-gradient(ellipse at 92% 38%, rgba(106, 69, 173, 0.12), transparent 32rem),
             #07111f;
         color: #e5eef8;
-    }
-    .stApp::before {
-        content: "";
-        position: fixed;
-        inset: -12vh -10vw;
-        z-index: 0;
-        pointer-events: none;
-        background:
-            radial-gradient(ellipse at 18% 22%, rgba(65, 184, 255, .26), transparent 34%),
-            radial-gradient(ellipse at 78% 30%, rgba(147, 105, 255, .19), transparent 38%),
-            radial-gradient(ellipse at 54% 82%, rgba(23, 194, 174, .16), transparent 36%);
-        opacity: .46;
-        transform: translateZ(0) scale(.96);
-        transform-origin: center;
-        animation: space-depth-zoom 38s ease-in-out infinite alternate;
-        will-change: transform, opacity;
-    }
-    .stAppViewContainer {
-        position: relative;
-        z-index: 1;
-    }
-    @keyframes space-depth-zoom {
-        0% {
-            opacity: .34;
-            transform: translate3d(-.6%, .4%, 0) scale(.96);
-        }
-        50% {
-            opacity: .15;
-            transform: translate3d(0, 0, 0) scale(1.045);
-        }
-        100% {
-            opacity: .26;
-            transform: translate3d(.6%, -.35%, 0) scale(1.12);
-        }
     }
     .block-container {
         max-width: 1180px;
@@ -77,93 +44,32 @@ st.markdown(
     .st-key-catalog_section,
     .st-key-estimator_section,
     .st-key-contact_section {
-        position: relative;
-        isolation: isolate;
         padding: 1.4rem clamp(1rem, 3vw, 2.2rem) 2rem;
         margin: 2rem 0;
         border: 1px solid rgba(123, 164, 198, 0.18);
         border-radius: 26px;
         box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14);
     }
-    .st-key-services_section::before,
-    .st-key-catalog_section::before,
-    .st-key-estimator_section::before,
-    .st-key-contact_section::before {
-        content: "";
-        position: absolute;
-        inset: -10% 0;
-        z-index: -1;
-        pointer-events: none;
-        opacity: .35;
-        background-size: 112px 112px, 173px 173px;
-        background-position: 12px 24px, 63px 80px;
-        will-change: transform;
-    }
-    .st-key-services_section > *,
-    .st-key-catalog_section > *,
-    .st-key-estimator_section > *,
-    .st-key-contact_section > * {
-        position: relative;
-        z-index: 1;
-    }
     .st-key-services_section {
         background:
             radial-gradient(ellipse at 5% 0%, rgba(35, 122, 224, 0.18), transparent 34rem),
             linear-gradient(135deg, #0d1b31, #10182b 58%, #13182c);
-        background-attachment: fixed, scroll;
-    }
-    .st-key-services_section::before {
-        background-image:
-            radial-gradient(circle, rgba(102, 188, 255, .72) 1px, transparent 1.6px),
-            radial-gradient(circle, rgba(122, 221, 214, .42) 1px, transparent 1.7px);
     }
     .st-key-catalog_section {
         background:
             radial-gradient(ellipse at 95% 0%, rgba(26, 176, 126, 0.17), transparent 34rem),
             linear-gradient(135deg, #0b211f, #0d1d25 55%, #10242a);
-        background-attachment: fixed, scroll;
-    }
-    .st-key-catalog_section::before {
-        background-image:
-            radial-gradient(circle, rgba(111, 233, 178, .62) 1px, transparent 1.6px),
-            radial-gradient(circle, rgba(91, 190, 255, .4) 1px, transparent 1.7px);
     }
     .st-key-estimator_section {
         background:
             radial-gradient(ellipse at 4% 5%, rgba(161, 98, 255, 0.17), transparent 32rem),
             radial-gradient(ellipse at 95% 95%, rgba(245, 185, 95, 0.10), transparent 28rem),
             linear-gradient(135deg, #1a1730, #15192d 58%, #211a2c);
-        background-attachment: fixed, fixed, scroll;
-    }
-    .st-key-estimator_section::before {
-        background-image:
-            radial-gradient(circle, rgba(202, 158, 255, .62) 1px, transparent 1.6px),
-            radial-gradient(circle, rgba(255, 207, 123, .44) 1px, transparent 1.7px);
     }
     .st-key-contact_section {
         background:
             radial-gradient(ellipse at 90% 5%, rgba(12, 184, 155, 0.15), transparent 34rem),
             linear-gradient(135deg, #0c202a, #10232b 58%, #102b2b);
-        background-attachment: fixed, scroll;
-    }
-    .st-key-contact_section::before {
-        background-image:
-            radial-gradient(circle, rgba(105, 235, 213, .6) 1px, transparent 1.6px),
-            radial-gradient(circle, rgba(110, 178, 255, .4) 1px, transparent 1.7px);
-    }
-    @keyframes scroll-parallax {
-        from { transform: translate3d(0, 28px, 0); }
-        to { transform: translate3d(0, -28px, 0); }
-    }
-    @supports (animation-timeline: view()) {
-        .st-key-services_section::before,
-        .st-key-catalog_section::before,
-        .st-key-estimator_section::before,
-        .st-key-contact_section::before {
-            animation: scroll-parallax linear both;
-            animation-timeline: view(block);
-            animation-range: entry 0% exit 100%;
-        }
     }
     [data-testid="stHeader"] { background: transparent; }
     [data-testid="stToolbar"] { display: none; }
@@ -253,46 +159,7 @@ st.markdown(
             radial-gradient(circle at 15% 100%, rgba(12, 184, 155, 0.15), transparent 24rem),
             radial-gradient(circle at 100% 100%, rgba(161, 98, 255, 0.12), transparent 22rem),
             linear-gradient(145deg, #0c1a2b, #091525);
-        background-attachment: fixed, fixed, fixed, scroll;
         overflow: hidden;
-        position: relative;
-        isolation: isolate;
-    }
-    .hero > * { position: relative; z-index: 1; }
-    .hero::before,
-    .hero::after {
-        content: "";
-        position: absolute;
-        pointer-events: none;
-        z-index: 0;
-        will-change: transform;
-    }
-    .hero::before {
-        width: 250px;
-        height: 250px;
-        top: -105px;
-        right: -78px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(83, 171, 255, .24), rgba(103, 116, 255, .07) 48%, transparent 72%);
-        animation: float-glow 10s ease-in-out infinite;
-    }
-    .hero::after {
-        inset: 0;
-        opacity: .30;
-        background-image:
-            radial-gradient(circle, rgba(137, 221, 255, .82) 1px, transparent 1.8px),
-            radial-gradient(circle, rgba(167, 146, 255, .65) 1px, transparent 1.8px);
-        background-size: 89px 89px, 137px 137px;
-        background-position: 12px 18px, 55px 73px;
-        animation: float-particles 22s linear infinite;
-    }
-    @keyframes float-glow {
-        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-        50% { transform: translate3d(-12px, 18px, 0) scale(1.05); }
-    }
-    @keyframes float-particles {
-        0%, 100% { transform: translate3d(0, 0, 0); }
-        50% { transform: translate3d(0, -10px, 0); }
     }
     .eyebrow {
         display: inline-block;
@@ -350,12 +217,6 @@ st.markdown(
         padding: 0.28rem 0.55rem;
         font-size: 0.75rem;
         font-weight: 800;
-        box-shadow: 0 0 0 0 rgba(82, 213, 154, .28);
-        animation: online-pulse 2.8s ease-out infinite;
-    }
-    @keyframes online-pulse {
-        0%, 100% { box-shadow: 0 0 0 0 rgba(82, 213, 154, .22); }
-        50% { box-shadow: 0 0 0 5px rgba(82, 213, 154, 0); }
     }
     .section-heading {
         text-align: center;
@@ -373,50 +234,16 @@ st.markdown(
         color: #91a4b8;
     }
     .service-card {
-        position: relative;
-        overflow: hidden;
         min-height: 210px;
         padding: 1.35rem;
-        transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
         border-top: 2px solid var(--card-accent, #35b8c2);
         background:
             linear-gradient(145deg, color-mix(in srgb, var(--card-accent, #35b8c2) 8%, #0e1d2e), #0a1725 74%);
     }
-    .service-card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0;
-        background: linear-gradient(115deg, transparent 20%, color-mix(in srgb, var(--card-accent, #35b8c2) 10%, transparent) 50%, transparent 78%);
-        transform: translateX(-35%);
-        transition: opacity 220ms ease, transform 420ms ease;
-    }
-    .service-card:hover {
-        transform: translateY(-4px);
-        border-color: var(--card-accent, #35b8c2);
-        box-shadow: 0 16px 35px color-mix(in srgb, var(--card-accent, #35b8c2) 16%, transparent);
-    }
-    .service-card:hover::after { opacity: 1; transform: translateX(25%); }
     .service-card h3 { color: var(--card-accent, #eef6ff); font-size: 1.05rem; }
     .service-card p { color: #94a7ba; line-height: 1.65; font-size: 0.9rem; }
-    .catalog-card {
-        overflow: hidden;
-        border-color: #263d55;
-        transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
-    }
-    .catalog-card:hover {
-        border-color: #59bcb7;
-        transform: translateY(-4px);
-        box-shadow: 0 16px 34px rgba(26, 176, 126, .12);
-    }
-    .catalog-card img {
-        width: 100%;
-        height: 190px;
-        object-fit: cover;
-        transition: transform 420ms ease;
-    }
-    .catalog-card:hover img { transform: scale(1.035); }
+    .catalog-card { overflow: hidden; border-color: #263d55; }
+    .catalog-card img { width: 100%; height: 190px; object-fit: cover; }
     .catalog-card div { padding: 1.1rem; }
     .catalog-card h3 { color: #edf5fc; font-size: 1rem; }
     .catalog-card p { color: #91a4b8; font-size: 0.86rem; }
@@ -489,9 +316,13 @@ st.markdown(
         color: #71869b;
         font-size: .78rem;
         display: flex;
+        flex-wrap: wrap;
+        align-items: center;
         justify-content: space-between;
         gap: 1rem;
     }
+    .footer-security { color: #83c7bd; }
+    .footer-version { color: #8fa9bd; white-space: nowrap; }
     .footer-bottom a { color: #8fa9bd; text-decoration: none; }
     .footer-bottom a:hover { color: #73ded0; }
     @media (max-width: 1050px) {
@@ -513,32 +344,6 @@ st.markdown(
         .header-action { flex: 1; }
         .footer-bottom { flex-direction: column; }
     }
-    @media (max-width: 760px) {
-        .hero::before { width: 180px; height: 180px; opacity: .75; }
-        .hero::after { opacity: .18; }
-        .hero,
-        .st-key-services_section,
-        .st-key-catalog_section,
-        .st-key-estimator_section,
-        .st-key-contact_section {
-            background-attachment: scroll !important;
-        }
-        .st-key-services_section::before,
-        .st-key-catalog_section::before,
-        .st-key-estimator_section::before,
-        .st-key-contact_section::before { opacity: .2; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-        *,
-        *::before,
-        *::after {
-            animation-duration: .01ms !important;
-            animation-iteration-count: 1 !important;
-            scroll-behavior: auto !important;
-            transition-duration: .01ms !important;
-        }
-    }
-
     div[data-testid="stButton"] > button,
     div[data-testid="stLinkButton"] > a {
         width: 100%;
@@ -598,13 +403,11 @@ st.markdown(
         </a>
         <nav class="header-nav" aria-label="Main navigation">
             <a href="#home">Home</a>
-            <a href="#cyber-security">Security</a>
-            <a href="#office-lan">LAN Setup</a>
-            <a href="#network-amc">AMC</a>
-            <a href="#antivirus">Antivirus</a>
-            <a href="#hardware-warranty-support">Warranty</a>
-            <a href="#windows-and-linux">OS &amp; Server</a>
+            <a href="#cyber-security">Services</a>
             <a href="#advanced-connectivity">Networking</a>
+            <a href="#built-for-everyday-business-operations">Solutions</a>
+            <a href="#estimate-your-annual-it-package">Estimate</a>
+            <a href="#send-a-service-inquiry">Contact</a>
         </nav>
         <div class="header-actions">
             <a class="header-action whatsapp" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
@@ -872,7 +675,9 @@ st.markdown(
             </div>
         </div>
         <div class="footer-bottom">
-            <span>© Hanvika IT Solutions · Guntur, Andhra Pradesh</span>
+            <span>© {COPYRIGHT_YEAR} Hanvika IT Solutions. All rights reserved.</span>
+            <span class="footer-security">🔒 Privacy &amp; Security: inquiry details are sent via WhatsApp and not stored on this website.</span>
+            <span class="footer-version">Version {APP_VERSION}</span>
             <a href="#home">Back to top ↑</a>
         </div>
     </footer>
