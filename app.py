@@ -102,8 +102,11 @@ st.markdown(
     }
     .st-key-services_section {
         background:
-            radial-gradient(ellipse at 5% 0%, rgba(35, 122, 224, 0.18), transparent 34rem),
-            linear-gradient(135deg, #0d1b31, #10182b 58%, #13182c);
+            radial-gradient(ellipse at 5% 0%, rgba(72, 152, 238, .14), transparent 34rem),
+            linear-gradient(135deg, rgba(20, 38, 61, .58), rgba(16, 24, 43, .46));
+        border-color: rgba(176, 216, 240, .28);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .1);
+        backdrop-filter: blur(22px) saturate(145%);
     }
     .st-key-estimator_section {
         background:
@@ -121,18 +124,26 @@ st.markdown(
 
     .topbar {
         display: flex;
-        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
         gap: 1rem;
         padding: 0.55rem 1rem;
         border: 1px solid rgba(52, 177, 174, 0.26);
         border-radius: 14px 14px 0 0;
         background: linear-gradient(90deg, rgba(10, 112, 111, 0.30), rgba(17, 44, 75, 0.72), rgba(81, 57, 123, 0.25));
+        backdrop-filter: blur(14px);
         color: #c4d5e5;
         font-size: 0.8rem;
-        text-align: center;
+        text-align: left;
     }
-    .topbar a { color: #78dfd0; font-weight: 800; text-decoration: none; }
+    .topbar-info { display: flex; align-items: center; flex-wrap: wrap; gap: .35rem 1rem; min-width: 0; }
+    .topbar-phone { color: #9ce8dc; font-weight: 800; text-decoration: none; }
+    .topbar-location { color: #c4d5e5; }
     .site-header {
+        box-sizing: border-box;
+        width: 100%;
+        container-type: inline-size;
+        container-name: site-header;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -141,8 +152,8 @@ st.markdown(
         border: 1px solid #1c3046;
         border-top: 0;
         border-radius: 0 0 18px 18px;
-        background: rgba(10, 22, 38, .92);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, .16);
+        background: rgba(10, 22, 38, .74);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .06);
         backdrop-filter: blur(14px);
         position: sticky;
         top: 0;
@@ -163,19 +174,42 @@ st.markdown(
     }
     .brand-name { font-size: 1rem; font-weight: 800; color: #f5f9ff; letter-spacing: .015em; }
     .brand-name span { color: #7bcaff; }
-    .brand-location { margin-top: .2rem; color: #8da1b5; font-size: .68rem; letter-spacing: .11em; }
-    .header-nav { display: flex; align-items: center; justify-content: center; gap: clamp(.35rem, .75vw, .8rem); }
+    .brand-location { margin-top: .2rem; color: #b0bfce; font-size: .7rem; letter-spacing: .08em; }
+    .header-nav {
+        display: grid;
+        flex: 1 1 auto;
+        grid-template-columns: repeat(8, max-content);
+        align-items: center;
+        justify-content: center;
+        gap: .2rem;
+        min-width: 0;
+    }
     .header-nav a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 34px;
+        padding: .35rem .4rem;
+        border: 1px solid rgba(187, 217, 240, .22);
+        border-radius: 9px;
+        background: rgba(210, 230, 248, .1);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+        backdrop-filter: blur(16px) saturate(145%);
         color: #adbed0;
         font-size: .72rem;
         font-weight: 700;
         text-decoration: none;
         white-space: nowrap;
-        transition: color 150ms ease;
+        transition: color 150ms ease, background 150ms ease, border-color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
     }
-    .header-nav a:hover { color: #79ded1; }
-    .nav-emoji { margin-right: .18rem; font-size: .82rem; }
-    .header-actions { display: flex; align-items: center; gap: .55rem; }
+    .header-nav a:hover {
+        transform: translateY(-2px) scale(1.035);
+        border-color: rgba(154, 224, 232, .42);
+        background: rgba(72, 158, 177, .24);
+        color: #b7eee5;
+        box-shadow: 0 5px 14px rgba(0, 0, 0, .2);
+    }
+    .header-call { display: flex; flex: 0 0 auto; align-items: center; }
     .mobile-menu { display: none; position: relative; z-index: 60; }
     .mobile-menu summary {
         display: grid;
@@ -184,7 +218,9 @@ st.markdown(
         height: 42px;
         border: 1px solid #2b465e;
         border-radius: 11px;
-        background: rgba(17, 36, 57, .92);
+        background: rgba(22, 44, 64, .42);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+        backdrop-filter: blur(16px) saturate(145%);
         color: #e8f2fb;
         cursor: pointer;
         font-size: 1.45rem;
@@ -203,45 +239,64 @@ st.markdown(
         max-height: 70vh;
         overflow-y: auto;
         padding: .65rem;
-        border: 1px solid #263d55;
+        border: 1px solid rgba(190, 220, 244, .24);
         border-radius: 16px;
-        background: rgba(8, 20, 35, .98);
+        background: rgba(8, 20, 35, .68);
         box-shadow: 0 18px 42px rgba(0, 0, 0, .4);
-        backdrop-filter: blur(16px);
+        backdrop-filter: blur(20px) saturate(145%);
     }
     .mobile-menu-panel a {
         display: flex;
         align-items: center;
         gap: .65rem;
         padding: .68rem .75rem;
+        border: 1px solid rgba(190, 220, 244, .2);
         border-radius: 10px;
+        background: rgba(210, 230, 248, .09);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
+        backdrop-filter: blur(10px);
         color: #c4d5e5;
         font-size: .88rem;
         font-weight: 700;
         text-decoration: none;
+        transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
     }
-    .mobile-menu-panel a:hover { background: rgba(54, 133, 159, .18); color: #7fe6d2; }
+    .mobile-menu-panel a:hover {
+        transform: translateY(-1px) scale(1.015);
+        border-color: rgba(154, 224, 232, .38);
+        background: rgba(72, 158, 177, .2);
+        color: #e7fbff;
+    }
+    .mobile-menu-panel a:focus-visible,
+    .header-nav a:focus-visible {
+        outline: 2px solid #78dfd0;
+        outline-offset: 2px;
+    }
     .header-action {
+        box-sizing: border-box;
+        flex: 0 0 auto;
         display: inline-flex;
         align-items: center;
         justify-content: center;
         min-height: 40px;
-        padding: .55rem .85rem;
-        border: 1px solid #277f91;
+        padding: .5rem .65rem;
+        border: 1px solid rgba(166, 222, 240, .38);
         border-radius: 11px;
-        background: linear-gradient(110deg, #087f82, #147fc1);
+        background: rgba(24, 112, 158, .42);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .18);
+        backdrop-filter: blur(16px) saturate(150%);
         color: #fff !important;
-        font-size: .8rem;
+        font-size: .76rem;
         font-weight: 800;
         text-decoration: none;
         white-space: nowrap;
         transition: 180ms ease;
     }
     .header-action.whatsapp {
-        border-color: rgba(49, 201, 140, .42);
-        background: linear-gradient(110deg, #087e65, #0b9a78);
+        border-color: rgba(113, 232, 183, .44);
+        background: rgba(8, 126, 101, .46);
     }
-    .header-action:hover { transform: translateY(-2px); filter: brightness(1.13); }
+    .header-action:hover { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 5px 14px rgba(0, 0, 0, .2); }
     .hero {
         position: relative;
         isolation: isolate;
@@ -305,13 +360,11 @@ st.markdown(
         color: #f7fbff;
         font-size: clamp(2.4rem, 5vw, 4.8rem);
         line-height: 1.02;
-        letter-spacing: -0.055em;
+        letter-spacing: -0.035em;
     }
     .accent {
-        color: #76c9ff;
-        background: linear-gradient(90deg, #70d7cf, #72baff 55%, #b39aff);
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        color: #91c9ed;
+        font-weight: 700;
     }
     .hero-copy {
         max-width: 730px;
@@ -320,17 +373,20 @@ st.markdown(
         line-height: 1.75;
     }
     .status-card, .service-card, .info-card {
-        border: 1px solid #1c3046;
+        border: 1px solid rgba(186, 217, 241, .28);
         border-radius: 18px;
-        background: linear-gradient(145deg, #0e1d2e, #0a1725);
+        background: linear-gradient(145deg, rgba(36, 62, 88, .48), rgba(8, 20, 34, .4));
+        backdrop-filter: blur(18px) saturate(145%);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, .14), inset 0 1px 0 rgba(255, 255, 255, .12);
     }
     .status-card {
         padding: 1.15rem;
-        border-color: #263d55;
+        border-color: rgba(186, 217, 241, .24);
         background:
-            radial-gradient(ellipse at 100% 0%, rgba(35, 182, 170, .1), transparent 22rem),
-            linear-gradient(145deg, #0e1d2e, #091522);
-        box-shadow: 0 22px 54px rgba(0, 0, 0, .24);
+            radial-gradient(ellipse at 100% 0%, rgba(35, 182, 170, .13), transparent 22rem),
+            linear-gradient(145deg, rgba(30, 55, 79, .58), rgba(8, 20, 34, .46));
+        box-shadow: 0 22px 54px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .12);
+        backdrop-filter: blur(20px) saturate(145%);
     }
     .status-header {
         display: flex;
@@ -365,7 +421,8 @@ st.markdown(
         padding: .65rem .7rem;
         border: 1px solid rgba(123, 164, 198, .14);
         border-radius: 13px;
-        background: rgba(5, 15, 27, .58);
+        background: rgba(12, 29, 46, .34);
+        backdrop-filter: blur(14px);
     }
     .status-icon {
         display: grid;
@@ -381,7 +438,7 @@ st.markdown(
     }
     .status-copy { flex: 1; min-width: 0; }
     .status-copy strong { display: block; color: #e5eef7; font-size: .82rem; line-height: 1.35; }
-    .status-copy small { display: block; margin-top: .13rem; color: #90a5ba; font-size: .7rem; line-height: 1.4; }
+    .status-copy small { display: block; margin-top: .13rem; color: #b0bfce; font-size: .74rem; line-height: 1.45; }
     .status-check {
         display: grid;
         place-items: center;
@@ -411,15 +468,17 @@ st.markdown(
         padding: .45rem .55rem;
         border: 1px solid rgba(120, 223, 208, .28);
         border-radius: 10px;
+        background: rgba(25, 56, 70, .52);
+        backdrop-filter: blur(12px);
         color: #b7eee5;
         font-size: .72rem;
         font-weight: 800;
         text-decoration: none;
         transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
     }
-    .status-action.whatsapp { border-color: rgba(82, 213, 154, .34); background: rgba(82, 213, 154, .1); }
-    .status-action.call { background: rgba(44, 153, 191, .12); }
-    .status-action:hover { border-color: #78dfd0; background: rgba(35, 122, 135, .3); transform: translateY(-1px); }
+    .status-action.whatsapp { border-color: rgba(82, 213, 154, .42); background: rgba(24, 121, 86, .32); }
+    .status-action.call { background: rgba(44, 124, 160, .32); }
+    .status-action:hover { border-color: rgba(196, 247, 241, .72); background: rgba(35, 122, 135, .48); transform: translateY(-1px) scale(1.02); }
     @media (prefers-reduced-motion: reduce) {
         .online-dot { animation: none; }
     }
@@ -438,13 +497,13 @@ st.markdown(
     .section-heading h2 {
         color: #f4f8fc;
         font-size: 2.35rem;
-        letter-spacing: -0.04em;
+        letter-spacing: -0.02em;
         margin: 0.6rem 0;
     }
     .section-heading p {
         max-width: 700px;
         margin: auto;
-        color: #91a4b8;
+        color: #b0bfce;
     }
     .section-heading .service-guide {
         display: inline-flex;
@@ -456,12 +515,14 @@ st.markdown(
         border: 1px solid rgba(73, 198, 185, .24);
         border-radius: 999px;
         background: rgba(15, 54, 59, .42);
+        backdrop-filter: blur(12px);
         color: #aee4d9;
         font-size: .82rem;
         line-height: 1.45;
     }
     .service-card {
         display: flex;
+        min-width: 0;
         min-height: 0;
         height: 100%;
         flex-direction: column;
@@ -469,13 +530,15 @@ st.markdown(
         border: 1px solid rgba(123, 164, 198, .18);
         border-top: 2px solid var(--card-accent, #35b8c2);
         border-radius: 17px;
-        background:
-            linear-gradient(145deg, color-mix(in srgb, var(--card-accent, #35b8c2) 8%, #0e1d2e), #0a1725 74%);
-        transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+        background: linear-gradient(145deg, rgba(38, 67, 94, .46), rgba(7, 19, 32, .34));
+        box-shadow: 0 14px 34px rgba(0, 0, 0, .16), inset 0 1px 0 rgba(255, 255, 255, .14);
+        backdrop-filter: blur(20px) saturate(150%);
+        transition: border-color 160ms ease, background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
     }
     .service-card:hover {
-        border-color: color-mix(in srgb, var(--card-accent, #35b8c2) 48%, #31506a);
-        box-shadow: 0 14px 32px rgba(0, 0, 0, .2);
+        border-color: color-mix(in srgb, var(--card-accent, #35b8c2) 52%, rgba(201, 230, 247, .5));
+        background: linear-gradient(145deg, rgba(49, 82, 108, .58), rgba(10, 27, 43, .48));
+        box-shadow: 0 16px 36px rgba(0, 0, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .2);
         transform: translateY(-3px);
     }
     .service-preview-grid {
@@ -499,7 +562,7 @@ st.markdown(
             0 10px 26px color-mix(in srgb, var(--card-accent, #35b8c2) 34%, transparent),
             inset 0 1px 0 rgba(255, 255, 255, .18);
         font-size: 2rem;
-        text-shadow: 0 2px 12px color-mix(in srgb, var(--card-accent, #35b8c2) 55%, transparent);
+        text-shadow: none;
         transition: transform 180ms ease, box-shadow 180ms ease;
     }
     .service-card:hover .service-icon {
@@ -513,7 +576,7 @@ st.markdown(
         .service-card:hover .service-icon { transform: none; }
     }
     .service-card h3 { margin: .15rem 0 .45rem; color: var(--card-accent, #eef6ff); font-size: 1.05rem; }
-    .service-card p { flex: 1; margin: 0 0 .9rem; color: #94a7ba; line-height: 1.55; font-size: .84rem; }
+    .service-card p { flex: 1; margin: 0 0 .9rem; color: #b0bfce; line-height: 1.6; font-size: .9rem; }
     .service-card-link {
         display: flex;
         align-items: center;
@@ -525,7 +588,9 @@ st.markdown(
         padding: .55rem .75rem;
         border: 1px solid color-mix(in srgb, var(--card-accent, #35b8c2) 32%, transparent);
         border-radius: 11px;
-        background: color-mix(in srgb, var(--card-accent, #35b8c2) 9%, #0b1828);
+        background: color-mix(in srgb, var(--card-accent, #35b8c2) 12%, rgba(12, 28, 44, .48));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+        backdrop-filter: blur(14px) saturate(145%);
         color: var(--card-accent, #7bded1);
         font-size: .8rem;
         font-weight: 800;
@@ -534,7 +599,8 @@ st.markdown(
     }
     .service-card-link:hover {
         border-color: color-mix(in srgb, var(--card-accent, #35b8c2) 65%, transparent);
-        background: color-mix(in srgb, var(--card-accent, #35b8c2) 17%, #0b1828);
+        background: color-mix(in srgb, var(--card-accent, #35b8c2) 20%, rgba(14, 35, 52, .54));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .2);
         transform: translateY(-1px);
     }
     .detail-group {
@@ -580,15 +646,17 @@ st.markdown(
         place-items: center;
         width: 38px;
         height: 38px;
-        border: 1px solid #35516a;
+        border: 1px solid rgba(190, 220, 244, .32);
         border-radius: 11px;
-        background: rgba(9, 24, 39, .9);
+        background: rgba(9, 24, 39, .68);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+        backdrop-filter: blur(14px);
         color: #dce8f2;
         font-size: 1.45rem;
         line-height: 1;
         text-decoration: none;
     }
-    .detail-close:hover { background: rgba(54, 133, 159, .2); color: #7fe6d2; }
+    .detail-close:hover { background: rgba(54, 133, 159, .46); color: #d7fff8; }
     .detail-header { display: flex; align-items: flex-start; gap: 1rem; padding-right: 3rem; }
     .detail-icon {
         display: grid;
@@ -612,12 +680,23 @@ st.markdown(
     }
     .detail-header h3 { margin: 0 0 .45rem; color: #f2f7fc; font-size: 1.28rem; }
     .detail-intro { max-width: 900px; margin: 0; color: #a4b7c9; line-height: 1.65; }
+    .detail-body {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(270px, .9fr);
+        align-items: start;
+        gap: 1rem;
+        margin-top: 1.15rem;
+    }
+    .detail-services-column, .detail-catalog-column { min-width: 0; }
+    .detail-column-heading { margin: 0 0 .7rem; color: #e8f2fb; font-size: .96rem; }
     .detail-grid {
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: .8rem;
         margin-top: 1.15rem;
     }
+    .detail-services-column .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 0; }
+    .detail-services-column .warranty-panels { grid-template-columns: 1fr; margin-top: 0; }
     .detail-item {
         min-width: 0;
         padding: .95rem;
@@ -626,15 +705,13 @@ st.markdown(
         background: rgba(5, 15, 27, .52);
     }
     .detail-item h4 {
-        display: flex;
-        align-items: flex-start;
-        gap: .45rem;
+        display: block;
         margin: 0 0 .45rem;
         color: #e8f2fb;
         font-size: .88rem;
         line-height: 1.45;
     }
-    .detail-item p { margin: 0; color: #96aabd; font-size: .81rem; line-height: 1.6; }
+    .detail-item p { margin: 0; color: #b0bfce; font-size: .85rem; line-height: 1.6; }
     .detail-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
     .detail-tag {
         padding: .38rem .65rem;
@@ -655,15 +732,20 @@ st.markdown(
         line-height: 1.6;
     }
     .modal-catalog {
-        margin-top: 1.1rem;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(123, 164, 198, .18);
+        padding: .9rem;
+        border: 1px solid rgba(123, 164, 198, .2);
+        border-radius: 16px;
+        background: rgba(5, 15, 27, .42);
     }
     .modal-catalog h4 { margin: 0 0 .7rem; color: #e8f2fb; font-size: .96rem; }
     .modal-catalog-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: .85rem;
+        grid-template-columns: 1fr;
+        gap: .7rem;
+        max-height: min(70vh, 680px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-right: .25rem;
     }
     .modal-catalog-item {
         position: relative;
@@ -687,18 +769,20 @@ st.markdown(
         position: relative;
         display: grid;
         place-items: center;
-        min-height: 210px;
+        min-height: 260px;
         background: rgba(3, 10, 19, .45);
         cursor: zoom-in;
     }
     .modal-catalog-image img {
         display: block;
         max-width: 100%;
-        max-height: 300px;
+        max-height: 260px;
         width: auto;
         height: auto;
         object-fit: contain;
+        transition: transform 180ms ease;
     }
+    .modal-catalog-image:hover img { transform: scale(1.035); }
     .catalog-zoom-toggle:focus-visible + .modal-catalog-image { outline: 3px solid #78dfd0; outline-offset: -3px; }
     .catalog-zoom-hint {
         position: absolute;
@@ -715,7 +799,7 @@ st.markdown(
     }
     .modal-catalog-copy { padding: .8rem .9rem .9rem; }
     .modal-catalog-copy strong { display: block; color: #dce8f2; font-size: .88rem; line-height: 1.4; }
-    .modal-catalog-copy p { margin: .3rem 0 0; color: #a4b7c9; font-size: .78rem; line-height: 1.5; }
+    .modal-catalog-copy p { margin: .3rem 0 0; color: #b0bfce; font-size: .84rem; line-height: 1.55; }
     .modal-image-zoom {
         display: none;
         position: fixed;
@@ -758,9 +842,11 @@ st.markdown(
         place-items: center;
         width: 42px;
         height: 42px;
-        border: 1px solid rgba(255, 255, 255, .32);
+        border: 1px solid rgba(210, 233, 250, .4);
         border-radius: 12px;
-        background: rgba(3, 10, 19, .82);
+        background: rgba(12, 27, 43, .68);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
+        backdrop-filter: blur(14px);
         color: #fff;
         cursor: pointer;
         font-size: 1.5rem;
@@ -813,8 +899,8 @@ st.markdown(
         border-radius: 11px;
         background: rgba(5, 15, 27, .58);
     }
-    .warranty-service-copy strong { display: block; color: #dce8f2; font-size: .78rem; line-height: 1.4; }
-    .warranty-service-copy small { display: block; margin-top: .2rem; color: #96aabd; font-size: .72rem; line-height: 1.5; }
+    .warranty-service-copy strong { display: block; color: #dce8f2; font-size: .82rem; line-height: 1.4; }
+    .warranty-service-copy small { display: block; margin-top: .2rem; color: #b0bfce; font-size: .76rem; line-height: 1.55; }
     .detail-actions {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -830,8 +916,11 @@ st.markdown(
         gap: .4rem;
         min-height: 44px;
         padding: .6rem .8rem;
-        border: 1px solid rgba(120, 223, 208, .28);
+        border: 1px solid rgba(166, 222, 240, .3);
         border-radius: 11px;
+        background: rgba(36, 66, 88, .4);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16);
+        backdrop-filter: blur(16px) saturate(145%);
         color: #c8dbea;
         font-size: .8rem;
         font-weight: 800;
@@ -839,9 +928,9 @@ st.markdown(
         text-decoration: none;
         transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
     }
-    .detail-action.whatsapp { border-color: rgba(82, 213, 154, .36); background: rgba(82, 213, 154, .1); color: #8ce2b5; }
-    .detail-action.call { background: rgba(44, 153, 191, .13); color: #9cdbef; }
-    .detail-action:hover { border-color: #78dfd0; background: rgba(35, 122, 135, .3); transform: translateY(-1px); }
+    .detail-action.whatsapp { border-color: rgba(82, 213, 154, .42); background: rgba(28, 126, 89, .32); color: #a4f0c4; }
+    .detail-action.call { background: rgba(44, 124, 160, .32); color: #b6e9f8; }
+    .detail-action:hover { border-color: rgba(196, 247, 241, .72); background: rgba(35, 122, 135, .48); transform: translateY(-1px) scale(1.015); }
     .info-card { padding: 1.5rem; height: 100%; }
     .info-card h3 { color: #eff7ff; }
     .info-card p, .info-card li { color: #9dafc1; }
@@ -902,14 +991,17 @@ st.markdown(
         place-items: center;
         width: 38px;
         height: 38px;
-        border: 1px solid #35516a;
+        border: 1px solid rgba(190, 220, 244, .32);
         border-radius: 11px;
+        background: rgba(9, 24, 39, .68);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+        backdrop-filter: blur(14px);
         color: #dce8f2;
         font-size: 1.45rem;
         line-height: 1;
         text-decoration: none;
     }
-    .policy-close:hover { background: rgba(54, 133, 159, .2); color: #7fe6d2; }
+    .policy-close:hover { background: rgba(54, 133, 159, .46); color: #d7fff8; }
     body:has(.detail-group:target) #tidio-chat,
     body:has(.footer-legal:target) #tidio-chat { display: none !important; }
     .footer-brandline { display: flex; align-items: center; gap: .75rem; }
@@ -926,7 +1018,7 @@ st.markdown(
     }
     .footer-title { color: #f2f7fc; font-weight: 800; letter-spacing: .04em; }
     .footer-brand-subtitle { color: #72caff; font-size: .68rem; font-weight: 700; letter-spacing: .13em; }
-    .footer-copy { color: #9dafc1; font-size: .88rem; line-height: 1.7; margin: .9rem 0; }
+    .footer-copy { color: #b0bfce; font-size: .9rem; line-height: 1.7; margin: .9rem 0; }
     .footer-column h4 { color: #e8f2fb; font-size: .95rem; margin: .15rem 0 .85rem; }
     .footer-column h4:after {
         content: "";
@@ -960,7 +1052,7 @@ st.markdown(
         margin-top: 1.6rem;
         padding-top: 1.1rem;
         border-top: 1px solid #203247;
-        color: #71869b;
+        color: #a5b4c3;
         font-size: .78rem;
         display: flex;
         flex-wrap: wrap;
@@ -981,6 +1073,7 @@ st.markdown(
         border: 1px solid rgba(89, 160, 188, .3);
         border-radius: 999px;
         background: rgba(11, 31, 49, .72);
+        backdrop-filter: blur(12px);
         color: #b6ccdf !important;
         font-size: .76rem;
         font-weight: 700;
@@ -999,14 +1092,50 @@ st.markdown(
         .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; }
         .footer-grid > :last-child { grid-column: 1 / -1; }
         .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .service-preview-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .service-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
-    @media (max-width: 1100px) {
-        .site-header { flex-wrap: nowrap; gap: .85rem; }
+    @container site-header (min-width: 961px) {
+        .header-nav { grid-template-columns: repeat(8, max-content); }
+        .mobile-menu { display: none; }
+    }
+    @container site-header (max-width: 960px) {
         .header-nav { display: none; }
         .mobile-menu { display: block; }
     }
+    @container site-header (max-width: 700px) {
+        .header-brand { flex: 1 1 auto; min-width: 0; }
+        .header-action {
+            width: 36px;
+            height: 36px;
+            min-height: 36px;
+            padding: 0;
+            font-size: 0;
+            line-height: 1;
+        }
+        .header-action span { font-size: 1rem; }
+    }
+    @media (max-width: 1300px) {
+        .site-header { flex-wrap: nowrap; gap: .85rem; }
+    }
+    @media (max-width: 700px) {
+        .site-header { gap: .55rem; }
+        .header-brand { flex: 1 1 auto; min-width: 0; }
+        .header-call .header-action {
+            width: 38px;
+            height: 38px;
+            min-height: 38px;
+            padding: 0;
+            font-size: 0;
+            line-height: 1;
+        }
+        .header-call .header-action span { font-size: 1rem; }
+    }
     @media (max-width: 760px) {
+        .detail-body { grid-template-columns: 1fr; }
+        .modal-catalog-grid {
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            max-height: none;
+        }
         div[data-testid="stHorizontalBlock"]:has(.hero, .status-card) {
             flex-direction: column;
             gap: 1rem;
@@ -1021,21 +1150,26 @@ st.markdown(
         .site-header { padding: .75rem; }
         .policy-dialog { padding: 1.3rem; }
         .warranty-panels { grid-template-columns: 1fr; }
-        .service-preview-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .service-preview-grid { grid-template-columns: 1fr; }
         .section-heading .service-guide { border-radius: 14px; }
     }
     @media (max-width: 480px) {
         .footer-grid { grid-template-columns: 1fr; }
         .footer-grid > :last-child { grid-column: auto; }
-        .topbar { flex-direction: column; gap: .25rem; }
+        .topbar { flex-direction: column; align-items: stretch; gap: .45rem; padding: .55rem .7rem; }
+        .topbar-info { justify-content: space-between; gap: .3rem .7rem; font-size: .74rem; }
+        .topbar .header-action { align-self: flex-end; }
         .site-header { gap: .45rem; padding: .55rem .65rem; }
         .header-brand { min-width: 0; gap: .5rem; }
         .brand-mark { width: 40px; height: 40px; border-radius: 11px; }
         .brand-name { font-size: .78rem; white-space: nowrap; }
-        .brand-location { font-size: .53rem; letter-spacing: .07em; }
-        .header-actions { width: auto; gap: .35rem; }
-        .header-action { min-height: 36px; padding: .4rem .5rem; font-size: .7rem; }
-        .header-action.whatsapp { display: none; }
+        .brand-location { font-size: .6rem; letter-spacing: .05em; }
+        .header-actions { width: auto; gap: .25rem; }
+        .header-call .header-action {
+            width: 36px;
+            height: 36px;
+            min-height: 36px;
+        }
         .mobile-menu summary { width: 36px; height: 36px; }
         .footer-bottom { flex-direction: column; }
         .hero { padding: 3rem 1.4rem; }
@@ -1054,17 +1188,20 @@ st.markdown(
         border-radius: 10px;
         min-height: 48px;
         font-weight: 800;
-        border: 1px solid #2c9b9b;
-        background: linear-gradient(110deg, #087f82, #147fc1);
+        border: 1px solid rgba(166, 222, 240, .38);
+        background: rgba(20, 112, 150, .42);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22);
+        backdrop-filter: blur(16px) saturate(150%);
         color: #fff;
-        transition: 180ms ease;
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
     }
     div[data-testid="stButton"] > button:hover,
     div[data-testid="stLinkButton"] > a:hover {
-        border-color: #76d9cb;
-        background: linear-gradient(110deg, #0b9a91, #258fd1);
+        transform: translateY(-1px) scale(1.01);
+        border-color: rgba(205, 248, 243, .72);
+        background: rgba(27, 144, 153, .56);
         color: #fff;
-        box-shadow: 0 8px 22px rgba(16, 158, 158, 0.2);
+        box-shadow: 0 8px 22px rgba(16, 158, 158, .22), inset 0 1px 0 rgba(255, 255, 255, .2);
     }
     .header-nav a:focus-visible,
     .mobile-menu summary:focus-visible,
@@ -1101,11 +1238,11 @@ st.html(
 st.markdown(
     f"""
     <div class="topbar">
-        <span>⚡ IT &amp; Infrastructure Services in Guntur</span>
-        <span> · </span>
-        <span>📍 {ADDRESS}</span>
-        <span> · </span>
-        <a href="tel:+{PHONE_LINK}">📞 {PHONE_DISPLAY}</a>
+        <div class="topbar-info">
+            <a class="topbar-phone" href="tel:+{PHONE_LINK}"><span aria-hidden="true">📞</span> {PHONE_DISPLAY}</a>
+            <span class="topbar-location">{ADDRESS}</span>
+        </div>
+        <a class="header-action whatsapp" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer" aria-label="Open WhatsApp chat"><span aria-hidden="true">💬</span>&nbsp; WhatsApp</a>
     </div>
     <header class="site-header">
         <a class="header-brand" href="#home" style="text-decoration:none">
@@ -1116,32 +1253,31 @@ st.markdown(
             </span>
         </a>
         <nav class="header-nav" aria-label="Main navigation">
-            <a href="#home"><span class="nav-emoji" aria-hidden="true">🏠</span>Home</a>
-            <a href="#cyber-security-details"><span class="nav-emoji" aria-hidden="true">🛡️</span>Security</a>
-            <a href="#office-lan-details"><span class="nav-emoji" aria-hidden="true">🖧</span>LAN Setup</a>
-            <a href="#network-amc-details"><span class="nav-emoji" aria-hidden="true">🧰</span>AMC</a>
-            <a href="#antivirus-details"><span class="nav-emoji" aria-hidden="true">🔐</span>Antivirus</a>
-            <a href="#hardware-warranty-details"><span class="nav-emoji" aria-hidden="true">🛠️</span>Warranty</a>
-            <a href="#os-server-details"><span class="nav-emoji" aria-hidden="true">🖥️</span>OS &amp; Server</a>
-            <a href="#advanced-connectivity-details"><span class="nav-emoji" aria-hidden="true">📡</span>Networking</a>
+            <a href="#home">Home</a>
+            <a href="#cyber-security-details">Security</a>
+            <a href="#office-lan-details">LAN Setup</a>
+            <a href="#network-amc-details">AMC</a>
+            <a href="#antivirus-details">Antivirus</a>
+            <a href="#hardware-warranty-details">Warranty</a>
+            <a href="#os-server-details">OS &amp; Server</a>
+            <a href="#advanced-connectivity-details">Networking</a>
         </nav>
-        <div class="header-actions">
-            <a class="header-action whatsapp" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer"><span aria-hidden="true">💬</span>&nbsp; WhatsApp</a>
-            <a class="header-action" href="tel:+{PHONE_LINK}"><span aria-hidden="true">📞</span>&nbsp; {PHONE_DISPLAY}</a>
+        <div class="header-call">
+            <a class="header-action" href="tel:+{PHONE_LINK}" aria-label="Call {PHONE_DISPLAY}"><span aria-hidden="true">📞</span>&nbsp; Call</a>
         </div>
         <details class="mobile-menu">
             <summary aria-label="Toggle navigation" aria-controls="mobile-navigation">
                 <span aria-hidden="true">☰</span>
             </summary>
             <nav class="mobile-menu-panel" id="mobile-navigation" aria-label="Mobile navigation">
-                <a href="#home"><span aria-hidden="true">🏠</span>Home</a>
-                <a href="#cyber-security-details"><span aria-hidden="true">🛡️</span>Security</a>
-                <a href="#office-lan-details"><span aria-hidden="true">🖧</span>LAN Setup</a>
-                <a href="#network-amc-details"><span aria-hidden="true">🧰</span>AMC</a>
-                <a href="#antivirus-details"><span aria-hidden="true">🔐</span>Antivirus</a>
-                <a href="#hardware-warranty-details"><span aria-hidden="true">🛠️</span>Warranty</a>
-                <a href="#os-server-details"><span aria-hidden="true">🖥️</span>OS &amp; Server</a>
-                <a href="#advanced-connectivity-details"><span aria-hidden="true">📡</span>Networking</a>
+                <a href="#home">Home</a>
+                <a href="#cyber-security-details">Security</a>
+                <a href="#office-lan-details">LAN Setup</a>
+                <a href="#network-amc-details">AMC</a>
+                <a href="#antivirus-details">Antivirus</a>
+                <a href="#hardware-warranty-details">Warranty</a>
+                <a href="#os-server-details">OS &amp; Server</a>
+                <a href="#advanced-connectivity-details">Networking</a>
             </nav>
         </details>
     </header>
@@ -1155,7 +1291,7 @@ with hero_left:
     st.markdown(
         """
         <div class="hero" id="home">
-            <span class="eyebrow">🚀 Business IT Infrastructure in Guntur</span>
+            <span class="eyebrow">Business IT Infrastructure in Guntur</span>
             <h1>Complete Networking, Cyber Security & <span class="accent">IT Infrastructure</span></h1>
             <p class="hero-copy">
                 End-to-end IT services across Guntur and Andhra Pradesh:
@@ -1238,9 +1374,9 @@ with st.container(key="services_section"):
     st.markdown(
         """
         <div class="section-heading" id="service-details">
-            <span class="eyebrow">✨ What we do</span>
+            <span class="eyebrow">Our services</span>
             <h2>Complete IT services for your business</h2>
-            <p class="service-guide">👆 Want the service details? Click any service card to explore features and related catalog items in a popup.</p>
+            <p class="service-guide">Click any service card to explore features and related catalog images.</p>
         </div>
         """,
         unsafe_allow_html=True,
@@ -1362,30 +1498,30 @@ detailed_services = [
 ]
 
 catalog = [
-   ("wqeads.jpg", "🧵", "Networking Setup & Cabling", "LAN, Wi-Fi 6, routers, switches, cabling and troubleshooting."),
    ("werewa.jpg", "📡", "Advanced Site Networking", "Headquarters LAN, branch VPN, P2P antennas and mesh Wi-Fi."),
    ("wrwqr.jpg", "🪟", "Windows OS Infrastructure", "Windows Server, hybrid security and workstation support."),
-   ("werad.jpg", "🐧", "Linux & Raspberry Pi", "Linux servers, Raspberry Pi OS and IoT operating systems."),
    ("asd.jpg", "🛠️", "Hardware Warranty Support", "Registration, validity checks and service ticket assistance."),
    ("2313.jpg", "🔧", "Office Network AMC", "On-site support, health checks and Tally data sharing."),
+   ("45648.jpg", "🕵️", "Managed Security & Response", "Security monitoring, incident response and threat visibility."),
+   ("6468.jpg", "🏢", "Small Office LAN & Data Sharing", "Office LAN, connected workstations and shared business data."),
+   ("8648.jpg", "🛡️", "Antivirus & Internet Security", "Endpoint protection, safer browsing and online threat protection."),
 ]
 catalog_by_image = {image: (image, icon, title, description) for image, icon, title, description in catalog}
 service_catalog_images = {
-   "cyber-security-details": ("werewa.jpg",),
-   "office-lan-details": ("wqeads.jpg",),
+   "cyber-security-details": ("45648.jpg",),
+   "office-lan-details": ("6468.jpg",),
    "network-amc-details": ("2313.jpg",),
-   "antivirus-details": ("wrwqr.jpg",),
+   "antivirus-details": ("8648.jpg",),
    "hardware-warranty-details": ("asd.jpg",),
-   "os-server-details": ("wrwqr.jpg", "werad.jpg"),
-   "advanced-connectivity-details": ("wqeads.jpg", "werewa.jpg"),
+   "os-server-details": ("wrwqr.jpg",),
+   "advanced-connectivity-details": ("werewa.jpg",),
 }
 
 detail_modals = []
 for service in detailed_services:
     feature_markup = "".join(
-        f'<article class="detail-item"><h4><span aria-hidden="true">{escape(icon)}</span>'
-        f'<span>{escape(title)}</span></h4><p>{escape(description)}</p></article>'
-        for icon, title, description in service["features"]
+        f'<article class="detail-item"><h4>{escape(title)}</h4><p>{escape(description)}</p></article>'
+        for _, title, description in service["features"]
     )
     tags_markup = "".join(
         f'<span class="detail-tag">{escape(tag)}</span>'
@@ -1397,29 +1533,19 @@ for service in detailed_services:
         else ""
     )
     if service["id"] == "hardware-warranty-details":
-        device_icons = {
-            "Laptops": "💻",
-            "Inkjet printers": "🖨️",
-            "Desktop PCs": "🖥️",
-            "Laser printers": "🖨️",
-            "All-in-One systems": "🖥️",
-            "Scanners": "📠",
-            "Monitors": "🖥️",
-            "Multi-Function devices": "🖨️",
-        }
         devices_markup = "".join(
-            f'<li><span aria-hidden="true">{device_icons.get(tag, "📦")}</span>{escape(tag)}</li>'
+            f'<li>{escape(tag)}</li>'
             for tag in service.get("tags", [])
         )
         services_markup = "".join(
-            f'<li><span aria-hidden="true">{escape(icon)}</span><span class="warranty-service-copy"><strong>{escape(title)}</strong><small>{escape(description)}</small></span></li>'
-            for icon, title, description in service["features"]
+            f'<li><span class="warranty-service-copy"><strong>{escape(title)}</strong><small>{escape(description)}</small></span></li>'
+            for _, title, description in service["features"]
         )
         service_content = (
             f'<div class="warranty-panels">'
-            f'<section class="warranty-panel"><h4>📦 Supported Devices</h4>'
+            f'<section class="warranty-panel"><h4>Supported devices</h4>'
             f'<ul class="warranty-device-list">{devices_markup}</ul></section>'
-            f'<section class="warranty-panel"><h4>🤝 Our Services</h4>'
+            f'<section class="warranty-panel"><h4>Support services</h4>'
             f'<ul class="warranty-service-list">{services_markup}</ul></section>'
             f'</div>'
         )
@@ -1448,13 +1574,13 @@ for service in detailed_services:
             f'<input class="catalog-zoom-toggle" id="{zoom_id_html}" type="checkbox" aria-label="Enlarge {image_title} image">'
             f'<label class="modal-catalog-image" for="{zoom_id_html}">'
             f'<img src="{image_url}" alt="{image_title}">'
-            f'<span class="catalog-zoom-hint">🔍 Click to enlarge</span></label>'
-            f'<div class="modal-catalog-copy"><strong>{escape(icon)} {escape(title)}</strong>'
+            f'<span class="catalog-zoom-hint">Click to enlarge</span></label>'
+            f'<div class="modal-catalog-copy"><strong>{escape(title)}</strong>'
             f'<p>{escape(description)}</p></div>{zoom_overlay}</article>'
         )
     catalog_markup = "".join(catalog_cards)
     related_catalog = (
-        f'<div class="modal-catalog"><h4>🧩 Related catalog items</h4>'
+        f'<div class="modal-catalog"><h4>Related catalog</h4>'
         f'<div class="modal-catalog-grid">{catalog_markup}</div></div>'
     )
     whatsapp_message = quote(
@@ -1481,7 +1607,11 @@ for service in detailed_services:
         f'<div><p class="detail-kicker">{escape(service["category"])}</p>'
         f'<h3>{escape(service["title"])}</h3>'
         f'<p class="detail-intro">{escape(service["intro"])}</p></div></div>'
-        f'{service_content}{related_catalog}{notice}{contact_actions}</div></section>'
+        f'<div class="detail-body">'
+        f'<section class="detail-services-column"><h4 class="detail-column-heading">Service details</h4>'
+        f'{service_content}{notice}{contact_actions}</section>'
+        f'<aside class="detail-catalog-column" aria-label="Related catalog images">{related_catalog}</aside>'
+        f'</div></div></section>'
     )
 
 st.html("\n".join(detail_modals))
@@ -1490,7 +1620,7 @@ with st.container(key="estimator_section"):
     st.markdown(
         """
         <div class="section-heading">
-            <span class="eyebrow">🧮 Cost estimator</span>
+            <span class="eyebrow">Cost estimator</span>
             <h2>Estimate your annual IT package</h2>
         </div>
         """,
@@ -1541,7 +1671,7 @@ with st.container(key="contact_section"):
     st.markdown(
         """
         <div class="section-heading">
-            <span class="eyebrow">📩 Contact us</span>
+            <span class="eyebrow">Contact us</span>
             <h2>Send a service inquiry</h2>
         </div>
         """,
