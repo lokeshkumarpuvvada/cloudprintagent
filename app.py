@@ -12,6 +12,18 @@ ADDRESS = "Guntur - 522002, Andhra Pradesh, India"
 APP_VERSION = "1.0"
 WHATSAPP_URL = f"https://wa.me/{PHONE_LINK}"
 IMAGE_BASE = "https://lokeshkumarpuvvada.github.io/hit"
+# Font Awesome Free 6.7.2 by Fonticons, Inc.; icons licensed CC BY 4.0.
+# https://fontawesome.com/license/free
+WHATSAPP_ICON = (
+    '<svg class="whatsapp-icon" viewBox="0 0 448 512" aria-hidden="true">'
+    '<path fill="currentColor" d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>'
+    '</svg>'
+)
+CALL_ICON = (
+    '<svg class="call-icon" viewBox="0 0 512 512" aria-hidden="true">'
+    '<path fill="currentColor" d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64 0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/>'
+    '</svg>'
+)
 
 
 st.set_page_config(
@@ -138,6 +150,7 @@ st.markdown(
     }
     .topbar-info { display: flex; align-items: center; flex-wrap: wrap; gap: .35rem 1rem; min-width: 0; }
     .topbar-phone { color: #9ce8dc; font-weight: 800; text-decoration: none; }
+    .topbar-phone .call-icon { color: #38bdf8; vertical-align: middle; }
     .topbar-location { color: #c4d5e5; }
     .site-header {
         box-sizing: border-box;
@@ -292,9 +305,32 @@ st.markdown(
         white-space: nowrap;
         transition: 180ms ease;
     }
-    .header-action.whatsapp {
-        border-color: rgba(113, 232, 183, .44);
-        background: rgba(8, 126, 101, .46);
+    .whatsapp-icon, .call-icon {
+        display: block;
+        flex: 0 0 18px;
+        width: 18px;
+        height: 18px;
+        color: currentColor;
+    }
+    .whatsapp-cta {
+        border: 1px solid #25d366 !important;
+        background: #128c4a !important;
+        color: #fff !important;
+    }
+    .whatsapp-cta:hover {
+        border-color: #6be69a !important;
+        background: #0f7a40 !important;
+        color: #fff !important;
+    }
+    .call-cta {
+        border: 1px solid rgba(77, 174, 235, .72) !important;
+        background: linear-gradient(135deg, #075985, #0284c7) !important;
+        color: #fff !important;
+    }
+    .call-cta:hover {
+        border-color: #8bd5ff !important;
+        background: linear-gradient(135deg, #0369a1, #0ea5e9) !important;
+        color: #fff !important;
     }
     .header-action:hover { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 5px 14px rgba(0, 0, 0, .2); }
     .hero {
@@ -496,6 +532,7 @@ st.markdown(
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: .4rem;
         min-height: 38px;
         padding: .45rem .55rem;
         border: 1px solid rgba(120, 223, 208, .28);
@@ -508,8 +545,6 @@ st.markdown(
         text-decoration: none;
         transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
     }
-    .status-action.whatsapp { border-color: rgba(82, 213, 154, .42); background: rgba(24, 121, 86, .32); }
-    .status-action.call { background: rgba(44, 124, 160, .32); }
     .status-action:hover { border-color: rgba(196, 247, 241, .72); background: rgba(35, 122, 135, .48); transform: translateY(-1px) scale(1.02); }
     @media (prefers-reduced-motion: reduce) {
         .online-dot { animation: none; }
@@ -568,13 +603,22 @@ st.markdown(
         box-shadow: 0 14px 34px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .14);
         transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
     }
+    .service-card-image-link {
+        display: block;
+        min-height: 0;
+        flex: 0 0 40%;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(186, 217, 241, .14);
+    }
+    .service-card-image-link:focus-visible {
+        outline: 2px solid #78dfd0;
+        outline-offset: -3px;
+    }
     .service-card-image {
         display: block;
         width: 100%;
-        min-height: 0;
-        flex: 0 0 40%;
+        height: 100%;
         object-fit: cover;
-        border-bottom: 1px solid rgba(186, 217, 241, .14);
         transition: transform 300ms ease;
     }
     .service-card-content {
@@ -593,6 +637,7 @@ st.markdown(
         transform: translateY(-3px);
     }
     .service-card:hover .service-card-image { transform: scale(1.045); }
+    .service-card-image-link:focus-visible .service-card-image { transform: scale(1.035); }
     .service-preview-grid {
         display: flex;
         align-items: stretch;
@@ -978,8 +1023,6 @@ st.markdown(
         text-decoration: none;
         transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
     }
-    .detail-action.whatsapp { border-color: rgba(82, 213, 154, .42); background: rgba(28, 126, 89, .32); color: #a4f0c4; }
-    .detail-action.call { background: rgba(44, 124, 160, .32); color: #b6e9f8; }
     .detail-action:hover { border-color: rgba(196, 247, 241, .72); background: rgba(35, 122, 135, .48); transform: translateY(-1px) scale(1.015); }
     .info-card { padding: 1.5rem; height: 100%; }
     .info-card h3 { color: #eff7ff; }
@@ -1098,6 +1141,17 @@ st.markdown(
         background: rgba(9, 39, 45, .55);
     }
     .footer-contact-card .footer-phone { color: #75dfd0; font-weight: 800; }
+    .footer-contact-card .footer-phone.whatsapp-cta,
+    .footer-contact-card .footer-phone.call-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        width: fit-content;
+        margin: .35rem 0;
+        padding: .4rem .65rem;
+        border-radius: 9px;
+        line-height: 1.4;
+    }
     .footer-bottom {
         margin-top: 1.6rem;
         padding-top: 1.1rem;
@@ -1263,6 +1317,16 @@ st.markdown(
         color: #fff;
         box-shadow: 0 8px 22px rgba(16, 158, 158, .22), inset 0 1px 0 rgba(255, 255, 255, .2);
     }
+    div[data-testid="stButton"] > button[kind="primary"] {
+        border-color: #25d366;
+        background: #128c4a;
+        color: #fff;
+    }
+    div[data-testid="stButton"] > button[kind="primary"]:hover {
+        border-color: #6be69a;
+        background: #0f7a40;
+        color: #fff;
+    }
     .header-nav a:focus-visible,
     .mobile-menu summary:focus-visible,
     .mobile-menu-panel a:focus-visible,
@@ -1299,10 +1363,10 @@ st.markdown(
     f"""
     <div class="topbar">
         <div class="topbar-info">
-            <a class="topbar-phone" href="tel:+{PHONE_LINK}"><span aria-hidden="true">📞</span> {PHONE_DISPLAY}</a>
+            <a class="topbar-phone" href="tel:+{PHONE_LINK}">{CALL_ICON} {PHONE_DISPLAY}</a>
             <span class="topbar-location">{ADDRESS}</span>
         </div>
-        <a class="header-action whatsapp" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer" aria-label="Open WhatsApp chat"><span aria-hidden="true">💬</span>&nbsp; WhatsApp</a>
+        <a class="header-action whatsapp whatsapp-cta" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer" aria-label="Open WhatsApp chat">{WHATSAPP_ICON}&nbsp; WhatsApp</a>
     </div>
     <header class="site-header">
         <a class="header-brand" href="#home" style="text-decoration:none">
@@ -1323,7 +1387,7 @@ st.markdown(
             <a href="#advanced-connectivity-details">Networking</a>
         </nav>
         <div class="header-call">
-            <a class="header-action" href="tel:+{PHONE_LINK}" aria-label="Call {PHONE_DISPLAY}"><span aria-hidden="true">📞</span>&nbsp; Call</a>
+            <a class="header-action call-cta" href="tel:+{PHONE_LINK}" aria-label="Call {PHONE_DISPLAY}">{CALL_ICON}&nbsp; Call</a>
         </div>
         <details class="mobile-menu">
             <summary aria-label="Toggle navigation" aria-controls="mobile-navigation">
@@ -1405,8 +1469,8 @@ with hero_right:
             <div class="status-footer">
                 <p>Need immediate network setup or AMC support in Guntur?</p>
                 <div class="status-actions">
-                    <a class="status-action whatsapp" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>
-                    <a class="status-action call" href="tel:+{PHONE_LINK}">📞 Call Engineer</a>
+                    <a class="status-action whatsapp whatsapp-cta" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer">{WHATSAPP_ICON} WhatsApp</a>
+                    <a class="status-action call call-cta" href="tel:+{PHONE_LINK}">{CALL_ICON} Call Engineer</a>
                 </div>
             </div>
         </div>
@@ -1437,8 +1501,10 @@ services = [
 
 service_cards = "".join(
     f'<article class="service-card" style="--card-accent:{escape(color)}">'
+    f'<a class="service-card-image-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" '
+    f'aria-label="View {escape(title, quote=True)} details and catalog">'
     f'<img class="service-card-image" src="{IMAGE_BASE}/{escape(service_catalog_images[detail_id][0], quote=True)}" '
-    f'alt="{escape(title, quote=True)}" loading="lazy" decoding="async">'
+    f'alt="{escape(title, quote=True)}" loading="lazy" decoding="async"></a>'
     f'<div class="service-card-content"><h3>{escape(title)}</h3><p>{escape(description)}</p>'
     f'<a class="service-card-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" aria-label="View {escape(title, quote=True)} details">'
     f'<span>Learn more</span></a></div></article>'
@@ -1780,8 +1846,8 @@ for service in detailed_services:
     whatsapp_url = f"{WHATSAPP_URL}?text={whatsapp_message}"
     contact_actions = (
         f'<div class="detail-actions">'
-        f'<a class="detail-action whatsapp" href="{escape(whatsapp_url, quote=True)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp about this service</a>'
-        f'<a class="detail-action call" href="tel:+{PHONE_LINK}">📞 Call {PHONE_DISPLAY}</a>'
+        f'<a class="detail-action whatsapp whatsapp-cta" href="{escape(whatsapp_url, quote=True)}" target="_blank" rel="noopener noreferrer">{WHATSAPP_ICON} WhatsApp about this service</a>'
+        f'<a class="detail-action call call-cta" href="tel:+{PHONE_LINK}">{CALL_ICON} Call {PHONE_DISPLAY}</a>'
         f'</div>'
     )
     notice = (
@@ -1852,10 +1918,10 @@ with st.container(key="estimator_section"):
         f"Antivirus: {'Yes' if antivirus else 'No'}, VPN/RDP: {'Yes' if vpn else 'No'}, "
         f"Estimated annual package: INR {estimate:,.0f}"
     )
-    st.link_button(
-        "✅ Confirm Estimate via WhatsApp",
-        f"{WHATSAPP_URL}?text={quote(estimate_text)}",
-        use_container_width=True,
+    estimate_whatsapp_url = f"{WHATSAPP_URL}?text={quote(estimate_text)}"
+    st.markdown(
+        f'<a class="detail-action whatsapp whatsapp-cta" style="width:100%" href="{escape(estimate_whatsapp_url, quote=True)}" target="_blank" rel="noopener noreferrer">{WHATSAPP_ICON} Confirm Estimate via WhatsApp</a>',
+        unsafe_allow_html=True,
     )
 
 with st.container(key="contact_section"):
@@ -1876,7 +1942,7 @@ with st.container(key="contact_section"):
             <div class="info-card">
                 <h3>Hanvika IT Solutions</h3>
                 <p><b>📍 Address</b><br>{ADDRESS}</p>
-                <p><b>📞 Phone / WhatsApp</b><br>{PHONE_DISPLAY}</p>
+                <p><b>{CALL_ICON} {WHATSAPP_ICON} Phone / WhatsApp</b><br>{PHONE_DISPLAY}</p>
                 <p><b>🗺️ Service Region</b><br>Guntur and surrounding regions across Andhra Pradesh</p>
                 <p><b>🕒 Support</b><br>Availability confirmed when you contact us</p>
             </div>
@@ -1905,7 +1971,7 @@ with st.container(key="contact_section"):
             "Do not enter passwords or confidential network information."
         )
 
-        if st.button("💬 Send Inquiry on WhatsApp", type="primary", use_container_width=True):
+        if st.button("Send Inquiry on WhatsApp", type="primary", use_container_width=True):
             if not name or not phone:
                 st.error("Please enter your name and phone number.")
             else:
@@ -1914,7 +1980,11 @@ with st.container(key="contact_section"):
                     f"My phone number is {phone}. I need {required_service}. "
                     f"Details: {details or 'Please contact me'}"
                 )
-                st.link_button("📲 Open WhatsApp", f"{WHATSAPP_URL}?text={quote(inquiry)}")
+                inquiry_whatsapp_url = f"{WHATSAPP_URL}?text={quote(inquiry)}"
+                st.markdown(
+                    f'<a class="detail-action whatsapp whatsapp-cta" href="{escape(inquiry_whatsapp_url, quote=True)}" target="_blank" rel="noopener noreferrer">{WHATSAPP_ICON} Open WhatsApp</a>',
+                    unsafe_allow_html=True,
+                )
 
 st.markdown(
     f"""
@@ -1934,8 +2004,8 @@ st.markdown(
                     Andhra Pradesh.
                 </p>
                 <div class="footer-contact-card">
-                    <a class="footer-phone" href="tel:+{PHONE_LINK}">📞 Call {PHONE_DISPLAY}</a>
-                    <a class="footer-phone" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer">💬 Chat on WhatsApp ↗</a>
+                    <a class="footer-phone call-cta" href="tel:+{PHONE_LINK}">{CALL_ICON} Call {PHONE_DISPLAY}</a>
+                    <a class="footer-phone whatsapp whatsapp-cta" href="{WHATSAPP_URL}" target="_blank" rel="noopener noreferrer">{WHATSAPP_ICON} Chat on WhatsApp ↗</a>
                 </div>
             </div>
             <div class="footer-column">
