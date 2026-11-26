@@ -332,6 +332,40 @@ st.markdown(
         background: linear-gradient(135deg, #0369a1, #0ea5e9) !important;
         color: #fff !important;
     }
+    .chat-consent {
+        position: fixed;
+        right: 1rem;
+        bottom: 1rem;
+        z-index: 10000;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        gap: .75rem;
+        width: min(100% - 2rem, 390px);
+        padding: .8rem;
+        border: 1px solid rgba(123, 164, 198, .42);
+        border-radius: 14px;
+        background: rgba(10, 23, 37, .96);
+        box-shadow: 0 12px 36px rgba(0, 0, 0, .38);
+        color: #d7e5f2;
+        backdrop-filter: blur(16px);
+    }
+    .chat-consent p { margin: 0; font-size: .75rem; line-height: 1.45; }
+    .chat-consent a { color: #8bd5ff; }
+    .chat-consent button {
+        min-height: 38px;
+        padding: .45rem .7rem;
+        border: 1px solid rgba(77, 174, 235, .72);
+        border-radius: 9px;
+        background: linear-gradient(135deg, #075985, #0284c7);
+        color: #fff;
+        font: inherit;
+        font-size: .75rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .chat-consent button:disabled { cursor: progress; opacity: .75; }
+    .chat-consent button:focus-visible { outline: 2px solid #8bd5ff; outline-offset: 3px; }
     .header-action:hover { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 5px 14px rgba(0, 0, 0, .2); }
     .hero {
         position: relative;
@@ -1360,7 +1394,37 @@ st.markdown(
 )
 
 st.html(
-    '<script src="https://code.tidio.co/dnp0ykgircft6qsxxacgwdjwoh8oky8u.js" async></script>',
+    """
+    <aside class="chat-consent" id="optional-chat-consent" aria-label="Optional live chat">
+        <p>Optional live chat is provided by Tidio. Enabling it connects to Tidio, which may process technical data. See the <a href="https://www.tidio.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Tidio privacy policy</a>.</p>
+        <button type="button">Enable live chat</button>
+        <span class="chat-consent-status" role="status" aria-live="polite"></span>
+    </aside>
+    <script>
+    (() => {
+        const panel = document.getElementById("optional-chat-consent");
+        const button = panel && panel.querySelector("button");
+        const status = panel && panel.querySelector(".chat-consent-status");
+        if (!panel || !button || !status || panel.dataset.ready) return;
+
+        panel.dataset.ready = "true";
+        button.addEventListener("click", () => {
+            button.disabled = true;
+            button.textContent = "Loading chat...";
+            const script = document.createElement("script");
+            script.src = "https://code.tidio.co/dnp0ykgircft6qsxxacgwdjwoh8oky8u.js";
+            script.async = true;
+            script.onload = () => panel.remove();
+            script.onerror = () => {
+                button.disabled = false;
+                button.textContent = "Try again";
+                status.textContent = "Chat could not be loaded. Please try again or use WhatsApp.";
+            };
+            document.head.appendChild(script);
+        });
+    })();
+    </script>
+    """,
     unsafe_allow_javascript=True,
 )
 
@@ -2053,8 +2117,15 @@ st.markdown(
                         a WhatsApp message; choosing to open the link shares its contents with WhatsApp, subject to its
                         privacy terms. The website host may process requests or technical logs. The page also requests
                         fonts from Google Fonts and images from GitHub Pages; those providers may receive standard
-                        connection data. The optional Tidio chat widget may process messages and technical data when
-                        you use chat. Please do not submit passwords, access keys, or other sensitive information.
+                        connection data. The optional Tidio chat script is loaded only after you select “Enable live
+                        chat”; Tidio may then process technical data and messages under its privacy policy. Please do
+                        not submit passwords, access keys, or other sensitive information.
+                    </p>
+                    <p>
+                        WhatsApp and phone icons are adapted from Font Awesome Free 6.7.2 by Fonticons, Inc. under
+                        the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0 license</a>.
+                        Source and license details are available at
+                        <a href="https://fontawesome.com/license/free" target="_blank" rel="noopener noreferrer">Font Awesome Free</a>.
                     </p>
                 </div>
             </section>
