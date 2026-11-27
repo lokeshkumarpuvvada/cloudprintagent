@@ -12,6 +12,8 @@ ADDRESS = "Guntur - 522002, Andhra Pradesh, India"
 APP_VERSION = "1.0"
 WHATSAPP_URL = f"https://wa.me/{PHONE_LINK}"
 IMAGE_BASE = "https://lokeshkumarpuvvada.github.io/hit"
+PWA_NAME = "Hanvika IT Solutions"
+PWA_THEME_COLOR = "#070b17"
 SEO_DESCRIPTION = (
     "Local IT support in Guntur: office LAN and Wi-Fi setup, Tally and printer sharing, "
     "network AMC, firewall, antivirus, and Windows/Linux server support."
@@ -43,10 +45,27 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+def get_cloudflare_analytics_token():
+    try:
+        analytics_settings = st.secrets["analytics"]
+    except (FileNotFoundError, KeyError):
+        return ""
+    token = analytics_settings.get("cloudflare_web_analytics_token", "")
+    if not isinstance(token, str):
+        raise TypeError("analytics.cloudflare_web_analytics_token must be a string")
+    return token.strip()
+
+
+CLOUDFLARE_ANALYTICS_TOKEN = get_cloudflare_analytics_token()
+CLOUDFLARE_ANALYTICS_TOKEN_JSON = json.dumps(CLOUDFLARE_ANALYTICS_TOKEN).replace("<", "\\u003c")
+
 st.html(
     f"""
     <script>
     (() => {{
+        const pwaName = {json.dumps(PWA_NAME)};
+        const pwaThemeColor = {json.dumps(PWA_THEME_COLOR)};
+        const cloudflareAnalyticsToken = {CLOUDFLARE_ANALYTICS_TOKEN_JSON};
         const metadata = [
             ["name", "description", {json.dumps(SEO_DESCRIPTION)}],
             ["name", "keywords", {json.dumps(SEO_KEYWORDS)}],
@@ -61,6 +80,134 @@ st.html(
                 document.head.appendChild(tag);
             }}
             tag.setAttribute("content", content);
+        }}
+
+        const setMeta = (name, content) => {{
+            let tag = document.head.querySelector('meta[name="' + name + '"]');
+            if (!tag) {{
+                tag = document.createElement("meta");
+                tag.name = name;
+                document.head.appendChild(tag);
+            }}
+            tag.content = content;
+        }};
+        const setLink = (rel, href, sizes) => {{
+            let tag = document.head.querySelector('link[rel="' + rel + '"]');
+            if (!tag) {{
+                tag = document.createElement("link");
+                tag.rel = rel;
+                document.head.appendChild(tag);
+            }}
+            tag.href = href;
+            if (sizes) tag.sizes = sizes;
+        }};
+
+        setMeta("theme-color", pwaThemeColor);
+        setMeta("mobile-web-app-capable", "yes");
+        setMeta("apple-mobile-web-app-capable", "yes");
+        setMeta("apple-mobile-web-app-title", pwaName);
+        setMeta("apple-mobile-web-app-status-bar-style", "black-translucent");
+        setMeta("msapplication-TileColor", pwaThemeColor);
+        setMeta("msapplication-TileImage", "/icons/mstile-150.png");
+
+        let installButton = document.getElementById("hanvika-install-app");
+        if (!installButton) {{
+            installButton = document.createElement("button");
+            installButton.id = "hanvika-install-app";
+            installButton.type = "button";
+            installButton.textContent = "Install App";
+            installButton.setAttribute("aria-label", "Install Hanvika IT Solutions");
+            installButton.hidden = true;
+            installButton.style.cssText = [
+                "position:fixed",
+                "right:1rem",
+                "bottom:1rem",
+                "z-index:2147483000",
+                "padding:.75rem 1rem",
+                "border:1px solid rgba(255,255,255,.28)",
+                "border-radius:999px",
+                "background:#087e83",
+                "color:#fff",
+                "font:600 14px system-ui,sans-serif",
+                "box-shadow:0 8px 24px rgba(0,0,0,.28)",
+                "cursor:pointer"
+            ].join(";");
+            document.body.appendChild(installButton);
+        }}
+
+        if (!window.__hanvikaInstallPromptBound) {{
+            window.__hanvikaInstallPromptBound = true;
+            let deferredInstallPrompt = null;
+            window.addEventListener("beforeinstallprompt", (event) => {{
+                event.preventDefault();
+                deferredInstallPrompt = event;
+                installButton.hidden = false;
+            }});
+            installButton.addEventListener("click", async () => {{
+                if (!deferredInstallPrompt) return;
+                const promptEvent = deferredInstallPrompt;
+                deferredInstallPrompt = null;
+                installButton.disabled = true;
+                try {{
+                    await promptEvent.prompt();
+                    await promptEvent.userChoice;
+                    installButton.hidden = true;
+                }} catch (error) {{
+                    console.error("PWA install prompt failed:", error);
+                }} finally {{
+                    installButton.disabled = false;
+                }}
+            }});
+            window.addEventListener("appinstalled", () => {{
+                installButton.hidden = true;
+            }});
+        }}
+
+        const isSecureOrigin =
+            location.protocol === "https:" ||
+            ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname);
+        if (isSecureOrigin && "serviceWorker" in navigator) {{
+            fetch("/manifest.json", {{ cache: "no-store" }})
+                .then(async (response) => {{
+                    const contentType = response.headers.get("content-type") || "";
+                    if (!response.ok || !contentType.includes("json")) return;
+
+                    const manifest = await response.json();
+                    if (!manifest || manifest.name !== pwaName) return;
+                    if (manifest.start_url !== "/" || manifest.scope !== "/") {{
+                        console.error("PWA manifest has an unexpected name or scope.");
+                        return;
+                    }}
+
+                    setLink("manifest", "/manifest.json");
+                    setLink("apple-touch-icon", "/icons/apple-touch-icon.png");
+                    setLink("icon", "/icons/icon-192.png", "192x192");
+                    await navigator.serviceWorker.register("/sw.js", {{
+                        scope: "/",
+                        updateViaCache: "none"
+                    }});
+                }})
+                .catch((error) => console.error("PWA setup failed:", error));
+        }}
+
+        if (
+            cloudflareAnalyticsToken &&
+            location.protocol === "https:" &&
+            !["localhost", "127.0.0.1", "[::1]"].includes(location.hostname) &&
+            !document.querySelector('script[data-hanvika-cloudflare-analytics]')
+        ) {{
+            const analyticsScript = document.createElement("script");
+            analyticsScript.type = "module";
+            analyticsScript.src = "https://static.cloudflareinsights.com/beacon.min.js";
+            analyticsScript.setAttribute(
+                "data-cf-beacon",
+                JSON.stringify({{ token: cloudflareAnalyticsToken }})
+            );
+            analyticsScript.setAttribute("data-hanvika-cloudflare-analytics", "true");
+            analyticsScript.addEventListener("error", () => {{
+                console.error("Cloudflare Web Analytics failed to load.");
+            }}, {{ once: true }});
+            document.head.appendChild(analyticsScript);
         }}
     }})();
     </script>
@@ -194,7 +341,7 @@ st.markdown(
         text-align: left;
     }
     .topbar-info { display: flex; align-items: center; flex-wrap: wrap; gap: .35rem 1rem; min-width: 0; }
-    .topbar-phone { color: #9ce8dc; font-weight: 800; text-decoration: none; }
+    .topbar-phone { display: inline-flex; flex: 0 0 auto; align-items: center; gap: .35rem; color: #9ce8dc; font-weight: 800; text-decoration: none; white-space: nowrap; }
     .topbar-phone .call-icon { color: #38bdf8; vertical-align: middle; }
     .topbar-location { color: #c4d5e5; }
     .site-header {
@@ -2152,6 +2299,14 @@ st.markdown(
                         privacy terms. The website host may process requests or technical logs. The page also requests
                         fonts from Google Fonts and images from GitHub Pages; those providers may receive standard
                         connection data. Please do not submit passwords, access keys, or other sensitive information.
+                    </p>
+                    <p>
+                        Cloudflare Web Analytics loads only when its site token is configured in deployment secrets.
+                        When enabled, it receives page-view and performance measurements; inquiry form fields are not
+                        intentionally sent to analytics. This app does not save visitor IP addresses or analytics
+                        records in this GitHub repository. Cloudflare may process connection data, including IP
+                        addresses, under its
+                        <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
                     </p>
                     <p>
                         WhatsApp and phone icons are adapted from Font Awesome Free 6.7.2 by Fonticons, Inc. under

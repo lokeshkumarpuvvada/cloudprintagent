@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070b17">
+  <title>Offline | Hanvika IT Solutions</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #070b17;
+      color: #e5eef8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      display: grid;
+      min-height: 100vh;
+      margin: 0;
+      padding: 1.5rem;
+      place-items: center;
+      background: radial-gradient(circle at top, #172c48, #070b17 70%);
+    }
+    main {
+      width: min(100%, 34rem);
+      padding: clamp(1.5rem, 6vw, 3rem);
+      border: 1px solid rgba(176, 216, 240, .24);
+      border-radius: 1.5rem;
+      background: rgba(16, 29, 48, .9);
+      box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, .35);
+      text-align: center;
+    }
+    .mark {
+      display: grid;
+      width: 4rem;
+      height: 4rem;
+      margin: 0 auto 1.25rem;
+      place-items: center;
+      border-radius: 1.25rem;
+      background: #087e83;
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+    h1 { margin: 0 0 .75rem; font-size: clamp(1.6rem, 5vw, 2.2rem); }
+    p { margin: 0 0 1.5rem; color: #b7c8da; line-height: 1.65; }
+    a {
+      display: inline-flex;
+      min-height: 2.8rem;
+      align-items: center;
+      justify-content: center;
+      padding: .7rem 1.15rem;
+      border-radius: 999px;
+      background: #087e83;
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a:focus-visible { outline: 3px solid #78dfd0; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark" aria-hidden="true">H</div>
+    <h1>You’re offline</h1>
+    <p>Hanvika IT Solutions needs an internet connection to load service details and send inquiries. Reconnect, then try again.</p>
+    <a href="/">Try again</a>
+  </main>
+</body>
+</html>
