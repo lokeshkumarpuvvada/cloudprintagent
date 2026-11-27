@@ -46,7 +46,9 @@ pre-cached assets.
 
 ## Website data and analytics
 
-The app does not use analytics or tracking tools and does not store visitor
-inquiry data in a website database. Hosting providers may still process standard
+The app has no website database and does not use analytics or advertising
+trackers. Tidio live chat is optional and its external script loads only when a
+visitor selects “Open live chat”; Tidio may process chat and page or device
+data under its own privacy policy. Hosting providers may process standard
 access logs, and third-party display assets may receive standard connection
 data; see the in-app Privacy Policy.
