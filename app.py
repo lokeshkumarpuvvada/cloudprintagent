@@ -4,7 +4,6 @@ from urllib.parse import quote
 
 import streamlit as st
 
-
 COPYRIGHT_YEAR = date.today().year
 PHONE_DISPLAY = "+91 9885138489"
 PHONE_LINK = "919885138489"
@@ -130,6 +129,15 @@ st.markdown(
         background:
             radial-gradient(ellipse at 90% 5%, rgba(12, 184, 155, 0.15), transparent 34rem),
             linear-gradient(135deg, #0c202a, #10232b 58%, #102b2b);
+    }
+    .st-key-estimator_section,
+    .st-key-contact_section {
+        padding: 1rem clamp(.9rem, 2.5vw, 1.8rem) 1.35rem;
+        margin: 1.25rem 0;
+    }
+    .st-key-estimator_section .section-heading,
+    .st-key-contact_section .section-heading {
+        margin: 2rem 0 1.25rem;
     }
     [data-testid="stHeader"] { background: transparent; }
     [data-testid="stToolbar"] { display: none; }
@@ -336,8 +344,7 @@ st.markdown(
     .hero {
         position: relative;
         isolation: isolate;
-        margin-top: 1.1rem;
-        padding: 4.2rem 3.5rem;
+        padding: clamp(2rem, 4vw, 3rem) clamp(1.4rem, 3vw, 2.6rem);
         border: 1px solid #1b3048;
         border-radius: 28px;
         background:
@@ -346,6 +353,15 @@ st.markdown(
             radial-gradient(circle at 100% 100%, rgba(161, 98, 255, 0.12), transparent 22rem),
             linear-gradient(145deg, #0c1a2b, #091525);
         overflow: hidden;
+    }
+    .hero-overview {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        gap: clamp(1rem, 2.5vw, 2rem);
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: clamp(1.25rem, 2.5vw, 2rem);
     }
     .hero::after {
         content: "";
@@ -392,10 +408,10 @@ st.markdown(
     }
     .hero h1 {
         max-width: 840px;
-        margin: 1.2rem 0 1rem;
+        margin: 1rem 0 .8rem;
         color: #f7fbff;
-        font-size: clamp(2.4rem, 5vw, 4.8rem);
-        line-height: 1.02;
+        font-size: clamp(2rem, 4vw, 3.9rem);
+        line-height: 1.04;
         letter-spacing: -0.035em;
     }
     .accent {
@@ -405,8 +421,8 @@ st.markdown(
     .hero-copy {
         max-width: 730px;
         color: #b2c1d1;
-        font-size: 1.05rem;
-        line-height: 1.75;
+        font-size: .98rem;
+        line-height: 1.6;
     }
     .status-card, .service-card, .info-card {
         border: 1px solid rgba(186, 217, 241, .28);
@@ -416,7 +432,7 @@ st.markdown(
         box-shadow: 0 12px 32px rgba(0, 0, 0, .14), inset 0 1px 0 rgba(255, 255, 255, .12);
     }
     .status-card {
-        padding: 1.15rem;
+        padding: .9rem;
         border-color: rgba(186, 217, 241, .24);
         background:
             radial-gradient(ellipse at 100% 0%, rgba(35, 182, 170, .13), transparent 22rem),
@@ -448,13 +464,13 @@ st.markdown(
         animation: status-pulse 1.8s ease-in-out infinite;
     }
     @keyframes status-pulse { 50% { opacity: .48; } }
-    .status-rows { display: grid; gap: .58rem; padding: .9rem 0; }
+    .status-rows { display: grid; gap: .48rem; padding: .7rem 0; }
     .status-row {
         display: flex;
         align-items: center;
-        gap: .65rem;
+        gap: .55rem;
         min-width: 0;
-        padding: .65rem .7rem;
+        padding: .55rem .65rem;
         border: 1px solid rgba(123, 164, 198, .14);
         border-radius: 13px;
         background: rgba(12, 29, 46, .34);
@@ -589,12 +605,12 @@ st.markdown(
     }
     .service-card {
         display: flex;
-        flex: 0 0 calc(25% - 1.5rem);
+        flex: 0 0 calc(28% - 1.25rem);
         scroll-snap-align: start;
         scroll-snap-stop: always;
         min-width: 0;
         flex-direction: column;
-        height: 360px;
+        height: 390px;
         overflow: hidden;
         border: 1px solid rgba(123, 164, 198, .18);
         border-top: 2px solid var(--card-accent, #35b8c2);
@@ -606,7 +622,7 @@ st.markdown(
     .service-card-image-link {
         display: block;
         min-height: 0;
-        flex: 0 0 40%;
+        flex: 0 0 42%;
         overflow: hidden;
         border-bottom: 1px solid rgba(186, 217, 241, .14);
     }
@@ -1029,9 +1045,9 @@ st.markdown(
     .info-card p, .info-card li { color: #9dafc1; }
     .site-footer {
         margin-top: 2.5rem;
-        padding: 2.3rem clamp(1.25rem, 3vw, 2.5rem) 1.2rem;
+        padding: 1.6rem clamp(1rem, 2.5vw, 1.8rem) 1rem;
         border: 1px solid rgba(82, 147, 177, .28);
-        border-radius: 26px;
+        border-radius: 22px;
         background:
             radial-gradient(ellipse at 0% 100%, rgba(12, 184, 155, 0.16), transparent 28rem),
             radial-gradient(ellipse at 100% 0%, rgba(104, 104, 255, .13), transparent 26rem),
@@ -1040,8 +1056,17 @@ st.markdown(
     }
     .footer-grid {
         display: grid;
-        grid-template-columns: 1.5fr 1fr 1fr 1.35fr;
-        gap: 2rem;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-auto-rows: 1fr;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    .footer-grid > div {
+        min-width: 0;
+        padding: 1.1rem;
+        border: 1px solid rgba(123, 164, 198, .18);
+        border-radius: 15px;
+        background: rgba(8, 20, 34, .34);
     }
     .footer-legal-grid {
         display: contents;
@@ -1097,7 +1122,7 @@ st.markdown(
     .policy-close:hover { background: rgba(54, 133, 159, .46); color: #d7fff8; }
     body:has(.detail-group:target) #tidio-chat,
     body:has(.footer-legal:target) #tidio-chat { display: none !important; }
-    .footer-brandline { display: flex; align-items: center; gap: .75rem; }
+    .footer-brandline { display: flex; align-items: center; gap: .75rem; min-height: 42px; }
     .footer-mark {
         display: grid;
         place-items: center;
@@ -1111,8 +1136,8 @@ st.markdown(
     }
     .footer-title { color: #f2f7fc; font-weight: 800; letter-spacing: .04em; }
     .footer-brand-subtitle { color: #72caff; font-size: .68rem; font-weight: 700; letter-spacing: .13em; }
-    .footer-copy { color: #b0bfce; font-size: .9rem; line-height: 1.7; margin: .9rem 0; }
-    .footer-column h4 { color: #e8f2fb; font-size: .95rem; margin: .15rem 0 .85rem; }
+    .footer-copy { color: #b0bfce; font-size: .86rem; line-height: 1.6; margin: .8rem 0; }
+    .footer-column h4 { color: #e8f2fb; font-size: .95rem; margin: .1rem 0 .8rem; }
     .footer-column h4:after {
         content: "";
         display: block;
@@ -1124,50 +1149,105 @@ st.markdown(
     }
     .footer-column a, .footer-phone {
         display: block;
-        width: fit-content;
+        width: 100%;
         color: #9dafc1;
-        font-size: .86rem;
-        line-height: 1.9;
+        font-size: .82rem;
+        line-height: 1.45;
         text-decoration: none;
         transition: color 150ms ease;
+    }
+    .footer-column > a:not(.policy-trigger) {
+        min-height: 36px;
+        margin: .3rem 0;
+        padding: .5rem .65rem;
+        border: 1px solid rgba(123, 164, 198, .16);
+        border-radius: 9px;
+        background: rgba(10, 25, 41, .42);
+    }
+    .footer-column a.policy-trigger {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 36px;
+        margin: .3rem 0;
+        padding: .45rem .65rem;
+        border-radius: 9px;
+        background: rgba(10, 25, 41, .42);
     }
     .footer-emoji { margin-right: .35rem; }
     .footer-column a:hover, .footer-phone:hover { color: #73ded0; }
     .footer-contact-card {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: .55rem;
         margin-top: .9rem;
-        padding: .9rem 1rem;
+        padding: .7rem;
         border: 1px solid rgba(48, 190, 166, .24);
-        border-radius: 14px;
+        border-radius: 11px;
         background: rgba(9, 39, 45, .55);
     }
     .footer-contact-card .footer-phone { color: #75dfd0; font-weight: 800; }
     .footer-contact-card .footer-phone.whatsapp-cta,
     .footer-contact-card .footer-phone.call-cta {
-        display: inline-flex;
+        display: flex;
         align-items: center;
+        justify-content: center;
         gap: .45rem;
-        width: fit-content;
-        margin: .35rem 0;
-        padding: .4rem .65rem;
+        width: 100%;
+        min-height: 38px;
+        margin: 0;
+        padding: .4rem .5rem;
         border-radius: 9px;
         line-height: 1.4;
+        text-align: center;
     }
     .footer-bottom {
         margin-top: 1.6rem;
-        padding-top: 1.1rem;
+        padding-top: 1rem;
         border-top: 1px solid #203247;
         color: #a5b4c3;
         font-size: .78rem;
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
     }
-    .footer-security { color: #83c7bd; }
-    .footer-version { color: #8fa9bd; white-space: nowrap; }
-    .footer-bottom a { color: #8fa9bd; text-decoration: none; }
-    .footer-bottom a:hover { color: #73ded0; }
+    .footer-policy-links {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        align-items: center;
+        gap: .65rem;
+    }
+    .footer-meta {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        gap: 1rem;
+        margin-top: .9rem;
+    }
+    .footer-copyright { white-space: nowrap; }
+    .footer-security {
+        justify-self: end;
+        color: #83c7bd;
+        text-align: right;
+        white-space: nowrap;
+    }
+    .footer-version {
+        justify-self: center;
+        color: #8fa9bd;
+        text-align: center;
+        white-space: nowrap;
+    }
+    .footer-policy-links > a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+        padding: .4rem .55rem;
+        border: 1px solid rgba(89, 160, 188, .22);
+        border-radius: 9px;
+        background: rgba(11, 31, 49, .5);
+        color: #8fa9bd;
+        text-align: center;
+        text-decoration: none;
+    }
+    .footer-policy-links > a:hover { color: #73ded0; }
     .policy-trigger {
         display: inline-flex;
         align-items: center;
@@ -1185,7 +1265,6 @@ st.markdown(
         text-decoration: none;
         transition: border-color 150ms ease, background 150ms ease, color 150ms ease, transform 150ms ease;
     }
-    .footer-column a.policy-trigger { margin: .25rem 0; }
     .policy-trigger:hover {
         border-color: rgba(71, 213, 192, .7);
         background: rgba(28, 91, 94, .42);
@@ -1193,10 +1272,9 @@ st.markdown(
         transform: translateY(-1px);
     }
     @media (max-width: 1050px) {
-        .footer-grid { grid-template-columns: 1.2fr 1fr 1fr; }
-        .footer-grid > :last-child { grid-column: 1 / -1; }
+        .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .service-card { flex-basis: calc(33.333% - 1rem); }
+        .service-card { flex-basis: calc(37% - 1rem); }
     }
     @container site-header (min-width: 961px) {
         .header-nav { grid-template-columns: repeat(8, max-content); }
@@ -1240,27 +1318,25 @@ st.markdown(
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             max-height: none;
         }
-        div[data-testid="stHorizontalBlock"]:has(.hero, .status-card) {
-            flex-direction: column;
-            gap: 1rem;
-        }
-        div[data-testid="stHorizontalBlock"]:has(.hero, .status-card) > div[data-testid="stColumn"] {
-            width: 100% !important;
-            max-width: 100% !important;
-            min-width: 100% !important;
-            flex: 1 1 100% !important;
-        }
-        .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+        .hero-overview { grid-template-columns: 1fr; gap: 1rem; }
+        .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+        .footer-grid > div { padding: .9rem; }
+        .footer-policy-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .footer-meta { grid-template-columns: minmax(0, 1fr) auto; gap: .65rem; }
+        .footer-security { grid-column: 1 / -1; }
         .site-header { padding: .75rem; }
         .policy-dialog { padding: 1.3rem; }
         .warranty-panels { grid-template-columns: 1fr; }
-        .service-card { flex-basis: calc(50% - 1rem); height: 340px; }
+        .service-card { flex-basis: calc(50% - 1rem); height: 360px; }
         .section-heading .service-guide { border-radius: 14px; }
     }
     @media (max-width: 480px) {
-        .footer-grid { grid-template-columns: 1fr; }
-        .footer-grid > :last-child { grid-column: auto; }
-        .service-card { flex-basis: 90%; height: 340px; }
+        .footer-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+        .footer-policy-links { grid-template-columns: 1fr; }
+        .footer-meta { grid-template-columns: 1fr; gap: .4rem; }
+        .footer-copyright, .footer-security { font-size: .64rem; }
+        .footer-version { justify-self: start; }
+        .service-card { flex-basis: 90%; height: 360px; }
         .topbar {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
@@ -1286,8 +1362,7 @@ st.markdown(
             min-height: 36px;
         }
         .mobile-menu summary { width: 36px; height: 36px; }
-        .footer-bottom { flex-direction: column; }
-        .hero { padding: 3rem 1.4rem; }
+        .hero { padding: 2rem 1.1rem; }
         .hero::after { right: -13rem; }
         .detail-grid { grid-template-columns: 1fr; }
         .detail-header { gap: .75rem; }
@@ -1435,10 +1510,9 @@ st.markdown(
 )
 
 
-hero_left, hero_right = st.columns([1.15, 0.85], gap="large")
-with hero_left:
-    st.markdown(
-        """
+st.markdown(
+    f"""
+    <div class="hero-overview">
         <div class="hero" id="home">
             <span class="eyebrow">Business IT Infrastructure in Guntur</span>
             <h1>Complete Networking, Cyber Security & <span class="accent">IT Infrastructure</span></h1>
@@ -1448,13 +1522,6 @@ with hero_left:
                 antivirus, hardware support and Windows/Linux servers.
             </p>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-with hero_right:
-    st.markdown(
-        f"""
         <div class="status-card">
             <div class="status-header">
                 <div class="status-brand">
@@ -1499,9 +1566,10 @@ with hero_right:
                 </div>
             </div>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
 
 service_catalog_images = {
@@ -2056,9 +2124,6 @@ st.markdown(
                     guidance across Guntur, Andhra Pradesh.
                 </p>
                 <a href="#send-a-service-inquiry"><span class="footer-emoji" aria-hidden="true">✉️</span>Send a service inquiry →</a>
-                <a class="policy-trigger" href="#privacy-policy-details"><span class="footer-emoji" aria-hidden="true">🔒</span>Privacy Policy</a>
-                <a class="policy-trigger" href="#terms-conditions-details"><span class="footer-emoji" aria-hidden="true">📄</span>Terms &amp; Conditions</a>
-                <a class="policy-trigger" href="#refund-policy-details"><span class="footer-emoji" aria-hidden="true">↩️</span>Refund Policy</a>
             </div>
         </div>
         <div class="footer-legal-grid">
@@ -2126,14 +2191,18 @@ st.markdown(
             </section>
         </div>
         <div class="footer-bottom" id="legal-notices">
-            <span>© {COPYRIGHT_YEAR} Hanvika IT Solutions. All rights reserved.</span>
-            <span class="footer-security">🔒 Click a notice to review our privacy and security details.</span>
-            <span class="footer-version">Version {APP_VERSION}</span>
-            <a class="policy-trigger" href="#privacy-policy-details">🔒 Privacy Policy</a>
-            <a class="policy-trigger" href="#terms-conditions-details">📄 Terms &amp; Conditions</a>
-            <a class="policy-trigger" href="#refund-policy-details">↩️ Refund Policy</a>
-            <a class="policy-trigger" href="#security-disclaimer-details">🛡️ Security Disclaimer</a>
-            <a href="#home">🏠 Back to top ↑</a>
+            <div class="footer-policy-links">
+                <a class="policy-trigger" href="#privacy-policy-details">🔒 Privacy Policy</a>
+                <a class="policy-trigger" href="#terms-conditions-details">📄 Terms &amp; Conditions</a>
+                <a class="policy-trigger" href="#refund-policy-details">↩️ Refund Policy</a>
+                <a class="policy-trigger" href="#security-disclaimer-details">🛡️ Security Disclaimer</a>
+                <a href="#home">🏠 Back to top ↑</a>
+            </div>
+            <div class="footer-meta">
+                <span class="footer-copyright">© {COPYRIGHT_YEAR} Hanvika IT Solutions. All rights reserved.</span>
+                <span class="footer-version">Version {APP_VERSION}</span>
+                <span class="footer-security">🔒 Click a notice to review our privacy and security details.</span>
+            </div>
         </div>
     </footer>
     """,
