@@ -44,20 +44,9 @@ informational page; Streamlit interactions still require a live connection.
 Increment `CACHE_VERSION` in `sw.js` when changing the cache behavior or
 pre-cached assets.
 
-## Optional privacy-oriented analytics
+## Website data and analytics
 
-The app loads [Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/get-started/)
-only when a site token is configured. Create a Web Analytics site for the
-production hostname, then add the token in Streamlit Community Cloud's Secrets
-settings or in the ignored local file
-`.streamlit/secrets.toml`:
-
-```toml
-[analytics]
-cloudflare_web_analytics_token = "PASTE_SITE_TOKEN_HERE"
-```
-
-Do not commit the real token. The app does not write visitor IP addresses,
-inquiry data, or analytics records to this GitHub repository. Cloudflare still
-receives beacon requests and may process connection metadata under its privacy
-terms; see the in-app Privacy Policy.
+The app does not use analytics or tracking tools and does not store visitor
+inquiry data in a website database. Hosting providers may still process standard
+access logs, and third-party display assets may receive standard connection
+data; see the in-app Privacy Policy.

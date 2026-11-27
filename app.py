@@ -45,27 +45,12 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-def get_cloudflare_analytics_token():
-    try:
-        analytics_settings = st.secrets["analytics"]
-    except (FileNotFoundError, KeyError):
-        return ""
-    token = analytics_settings.get("cloudflare_web_analytics_token", "")
-    if not isinstance(token, str):
-        raise TypeError("analytics.cloudflare_web_analytics_token must be a string")
-    return token.strip()
-
-
-CLOUDFLARE_ANALYTICS_TOKEN = get_cloudflare_analytics_token()
-CLOUDFLARE_ANALYTICS_TOKEN_JSON = json.dumps(CLOUDFLARE_ANALYTICS_TOKEN).replace("<", "\\u003c")
-
 st.html(
     f"""
     <script>
     (() => {{
         const pwaName = {json.dumps(PWA_NAME)};
         const pwaThemeColor = {json.dumps(PWA_THEME_COLOR)};
-        const cloudflareAnalyticsToken = {CLOUDFLARE_ANALYTICS_TOKEN_JSON};
         const metadata = [
             ["name", "description", {json.dumps(SEO_DESCRIPTION)}],
             ["name", "keywords", {json.dumps(SEO_KEYWORDS)}],
@@ -190,25 +175,6 @@ st.html(
                 .catch((error) => console.error("PWA setup failed:", error));
         }}
 
-        if (
-            cloudflareAnalyticsToken &&
-            location.protocol === "https:" &&
-            !["localhost", "127.0.0.1", "[::1]"].includes(location.hostname) &&
-            !document.querySelector('script[data-hanvika-cloudflare-analytics]')
-        ) {{
-            const analyticsScript = document.createElement("script");
-            analyticsScript.type = "module";
-            analyticsScript.src = "https://static.cloudflareinsights.com/beacon.min.js";
-            analyticsScript.setAttribute(
-                "data-cf-beacon",
-                JSON.stringify({{ token: cloudflareAnalyticsToken }})
-            );
-            analyticsScript.setAttribute("data-hanvika-cloudflare-analytics", "true");
-            analyticsScript.addEventListener("error", () => {{
-                console.error("Cloudflare Web Analytics failed to load.");
-            }}, {{ once: true }});
-            document.head.appendChild(analyticsScript);
-        }}
     }})();
     </script>
     """,
@@ -2293,27 +2259,29 @@ st.markdown(
                 <div class="policy-dialog" role="dialog" aria-labelledby="privacy-policy-title">
                     <a class="policy-close" href="#legal-notices" aria-label="Close Privacy Policy">×</a>
                     <h4 id="privacy-policy-title">🔒 Privacy Policy</h4>
+                    <p><strong>Effective date:</strong> November 27, 2026.</p>
                     <p>
-                        This app is not configured with a database for inquiries. Form details are processed to prepare
-                        a WhatsApp message; choosing to open the link shares its contents with WhatsApp, subject to its
-                        privacy terms. The website host may process requests or technical logs. The page also requests
-                        fonts from Google Fonts and images from GitHub Pages; those providers may receive standard
-                        connection data. Please do not submit passwords, access keys, or other sensitive information.
+                        This website is for advertising and showcasing Hanvika IT Solutions services. It has no database
+                        and Hanvika IT Solutions does not collect, track, or store visitor data through the website.
+                        The website does not use analytics or tracking tools. Inquiry form details are used in your
+                        browser to prepare a WhatsApp message; nothing is sent to us unless you choose to contact us
+                        directly. WhatsApp and email providers process messages under their own privacy terms.
                     </p>
                     <p>
-                        Cloudflare Web Analytics loads only when its site token is configured in deployment secrets.
-                        When enabled, it receives page-view and performance measurements; inquiry form fields are not
-                        intentionally sent to analytics. This app does not save visitor IP addresses or analytics
-                        records in this GitHub repository. Cloudflare may process connection data, including IP
-                        addresses, under its
-                        <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+                        If you voluntarily contact us by WhatsApp or email, we use your message only to reply to your
+                        inquiry and permanently delete the message or email within 30 days. To ask a privacy question
+                        or request earlier deletion, contact us at [Insert Your Email Here].
                     </p>
                     <p>
-                        WhatsApp and phone icons are adapted from Font Awesome Free 6.7.2 by Fonticons, Inc. under
-                        the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0 license</a>.
-                        Source and license details are available at
-                        <a href="https://fontawesome.com/license/free" target="_blank" rel="noopener noreferrer">Font Awesome Free</a>.
+                        The hosting provider may create standard access logs and automatically purges them under its
+                        retention practices. The page requests fonts from Google Fonts and displays images hosted on
+                        GitHub Pages; these providers may receive standard connection data. Google Fonts and GitHub
+                        Pages assets are used only to display this website. WhatsApp and phone icons use Font Awesome
+                        Free 6.7.2 by Fonticons, Inc., under the
+                        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0 license</a>;
+                        see <a href="https://fontawesome.com/license/free" target="_blank" rel="noopener noreferrer">Font Awesome Free</a>.
                     </p>
+                    <p>Please do not send passwords, access keys, or other sensitive information.</p>
                 </div>
             </section>
             <section class="footer-legal" id="terms-conditions-details" aria-labelledby="terms-conditions-title">
@@ -2321,12 +2289,18 @@ st.markdown(
                 <div class="policy-dialog" role="dialog" aria-labelledby="terms-conditions-title">
                     <a class="policy-close" href="#legal-notices" aria-label="Close Terms &amp; Conditions">×</a>
                     <h4 id="terms-conditions-title">📄 Terms &amp; Conditions</h4>
+                    <p><strong>Effective date:</strong> November 27, 2026.</p>
                     <p>
-                        Website content is general information about Hanvika IT Solutions. Service availability,
-                        scope, deliverables, schedule, and fees are confirmed in a written quote, invoice, or service
-                        agreement; website estimates are indicative only. Customers must have authorization for any
-                        systems they ask us to access. Third-party software, hardware, and external links remain subject
-                        to their respective providers' terms. These terms do not limit rights provided by applicable law.
+                        This website is strictly for advertising and showcasing Hanvika IT Solutions services. Website
+                        content, displayed details, and estimates are informational only and are not binding offers or
+                        quotations. Final pricing and a quotation are confirmed only after direct contact and discussion,
+                        and may be documented in a written quote, invoice, or service agreement. Service availability,
+                        scope, deliverables, and schedule are confirmed directly with the customer.
+                    </p>
+                    <p>
+                        Customers must have authorization for any systems they ask us to access. Third-party software,
+                        hardware, and external links remain subject to their respective providers' terms. These terms
+                        do not limit rights provided by applicable law.
                     </p>
                 </div>
             </section>
