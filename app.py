@@ -41,7 +41,7 @@ st.markdown(
     html, body, .stApp, .stApp *, [class*="css"] {
         font-family: 'Inter', 'Segoe UI', sans-serif !important;
     }
-    html, body { min-height: 100%; background: #f3f5f7; scroll-behavior: smooth; }
+    html, body { min-height: 100%; background: #070b17; scroll-behavior: smooth; }
     .stApp {
         position: relative;
         isolation: isolate;
@@ -57,20 +57,24 @@ st.markdown(
         pointer-events: none;
     }
     .stApp::before {
-        background: #f3f5f7;
+        background:
+            radial-gradient(ellipse at 12% 8%, rgba(147, 195, 255, .24), transparent 34rem),
+            radial-gradient(ellipse at 88% 35%, rgba(117, 105, 235, .15), transparent 32rem),
+            radial-gradient(ellipse at 48% 78%, rgba(16, 153, 165, .11), transparent 36rem),
+            linear-gradient(160deg, #172c48 0%, #0c1830 42%, #070b17 100%);
         transform-origin: center top;
-        animation: none;
-        will-change: auto;
+        animation: space-zoom 55s ease-in-out infinite alternate;
+        will-change: transform;
     }
     .stApp::after {
-        opacity: 0;
+        opacity: .38;
         background-image:
             radial-gradient(1.5px 1.5px at 24px 32px, rgba(220, 238, 255, .78) 50%, transparent 100%),
             radial-gradient(1px 1px at 88px 112px, rgba(166, 207, 255, .64) 50%, transparent 100%),
             radial-gradient(1px 1px at 142px 56px, rgba(220, 238, 255, .5) 50%, transparent 100%);
         background-size: 180px 180px;
-        animation: none;
-        will-change: auto;
+        animation: stars-drift 70s linear infinite alternate;
+        will-change: transform;
     }
     @keyframes space-zoom {
         from { transform: scale(1); }
