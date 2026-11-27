@@ -1396,8 +1396,8 @@ st.markdown(
 st.html(
     """
     <aside class="chat-consent" id="optional-chat-consent" aria-label="Optional live chat">
-        <p>Optional live chat is provided by Tidio. Enabling it may share page and device data with Tidio. See its <a href="https://www.tidio.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.</p>
-        <button type="button">Enable live chat</button>
+        <p>Live chat is optional. Opening it loads an external chat service that may process page and device data. Read its <a href="https://www.tidio.com/privacy-policy/" target="_blank" rel="noopener noreferrer">privacy policy</a>.</p>
+        <button type="button">Open live chat</button>
         <span class="chat-consent-status" role="status" aria-live="polite"></span>
     </aside>
     <script>
@@ -1408,14 +1408,50 @@ st.html(
         if (!panel || !button || !status || panel.dataset.ready) return;
 
         panel.dataset.ready = "true";
+        let chatReady = false;
+        const openChat = () => {
+            window.tidioChatApi.show();
+            window.tidioChatApi.open();
+        };
+        const onChatReady = () => {
+            const chat = window.tidioChatApi;
+            if (!chat) {
+                button.disabled = false;
+                button.textContent = "Try again";
+                status.textContent = "Chat could not be opened. Please try again or use WhatsApp.";
+                return;
+            }
+
+            chatReady = true;
+            chat.hide();
+            chat.on("close", () => chat.hide());
+            button.disabled = false;
+            button.textContent = "Open live chat";
+            status.textContent = "";
+            openChat();
+        };
+
         button.addEventListener("click", () => {
+            if (chatReady) {
+                openChat();
+                return;
+            }
+            if (button.disabled) return;
+
             button.disabled = true;
             button.textContent = "Loading chat...";
+
+            if (window.tidioChatApi) {
+                window.tidioChatApi.on("ready", onChatReady);
+                return;
+            }
+
             const script = document.createElement("script");
             script.src = "https://code.tidio.co/dnp0ykgircft6qsxxacgwdjwoh8oky8u.js";
             script.async = true;
-            script.onload = () => panel.remove();
+            document.addEventListener("tidioChat-ready", onChatReady, { once: true });
             script.onerror = () => {
+                document.removeEventListener("tidioChat-ready", onChatReady);
                 button.disabled = false;
                 button.textContent = "Try again";
                 status.textContent = "Chat could not be loaded. Please try again or use WhatsApp.";
