@@ -1120,8 +1120,6 @@ st.markdown(
         text-decoration: none;
     }
     .policy-close:hover { background: rgba(54, 133, 159, .46); color: #d7fff8; }
-    body:has(.detail-group:target) #tidio-chat,
-    body:has(.footer-legal:target) #tidio-chat { display: none !important; }
     .footer-brandline { display: flex; align-items: center; gap: .75rem; min-height: 42px; }
     .footer-mark {
         display: grid;
@@ -1433,31 +1431,6 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-
-st.html(
-    """
-    <script>
-    (() => {
-        if (document.getElementById("tidio-chat-script")) return;
-        const closeChatOnReady = () => window.tidioChatApi.close();
-        if (window.tidioChatApi) {
-            window.tidioChatApi.on("ready", closeChatOnReady);
-        } else {
-            document.addEventListener("tidioChat-ready", closeChatOnReady, { once: true });
-        }
-
-        const script = document.createElement("script");
-        script.id = "tidio-chat-script";
-        script.src = "https://code.tidio.co/dnp0ykgircft6qsxxacgwdjwoh8oky8u.js";
-        script.async = true;
-        script.onerror = () => console.error("Tidio live chat failed to load.");
-        document.head.appendChild(script);
-    })();
-    </script>
-    """,
-    unsafe_allow_javascript=True,
-)
-
 
 st.markdown(
     f"""
@@ -2137,9 +2110,7 @@ st.markdown(
                         a WhatsApp message; choosing to open the link shares its contents with WhatsApp, subject to its
                         privacy terms. The website host may process requests or technical logs. The page also requests
                         fonts from Google Fonts and images from GitHub Pages; those providers may receive standard
-                        connection data. The Tidio chat widget loads with the page; its script can access page content,
-                        including visible form text, and may process technical data and messages under its privacy
-                        policy. Please do not submit passwords, access keys, or other sensitive information.
+                        connection data. Please do not submit passwords, access keys, or other sensitive information.
                     </p>
                     <p>
                         WhatsApp and phone icons are adapted from Font Awesome Free 6.7.2 by Fonticons, Inc. under
