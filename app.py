@@ -1,3 +1,4 @@
+import json
 from datetime import date
 from html import escape
 from urllib.parse import quote
@@ -11,6 +12,16 @@ ADDRESS = "Guntur - 522002, Andhra Pradesh, India"
 APP_VERSION = "1.0"
 WHATSAPP_URL = f"https://wa.me/{PHONE_LINK}"
 IMAGE_BASE = "https://lokeshkumarpuvvada.github.io/hit"
+SEO_DESCRIPTION = (
+    "Local IT support in Guntur: office LAN and Wi-Fi setup, Tally and printer sharing, "
+    "network AMC, firewall, antivirus, and Windows/Linux server support."
+)
+SEO_KEYWORDS = (
+    "IT services Guntur, IT support Guntur, computer networking Guntur, office network setup, "
+    "office LAN setup, Wi-Fi installation Guntur, Tally data sharing, printer and file sharing, "
+    "network AMC, firewall security, antivirus support, Windows server setup, Linux server support, "
+    "hardware support Guntur, IT infrastructure Andhra Pradesh"
+)
 # Font Awesome Free 6.7.2 by Fonticons, Inc.; icons licensed CC BY 4.0.
 # https://fontawesome.com/license/free
 WHATSAPP_ICON = (
@@ -26,10 +37,35 @@ CALL_ICON = (
 
 
 st.set_page_config(
-    page_title="Hanvika IT Solutions",
+    page_title="Hanvika IT Solutions | IT Support in Guntur",
     page_icon="H",
     layout="wide",
     initial_sidebar_state="collapsed",
+)
+
+st.html(
+    f"""
+    <script>
+    (() => {{
+        const metadata = [
+            ["name", "description", {json.dumps(SEO_DESCRIPTION)}],
+            ["name", "keywords", {json.dumps(SEO_KEYWORDS)}],
+            ["property", "og:title", "Hanvika IT Solutions | IT Support in Guntur"],
+            ["property", "og:description", {json.dumps(SEO_DESCRIPTION)}]
+        ];
+        for (const [attribute, key, content] of metadata) {{
+            let tag = document.head.querySelector('meta[' + attribute + '="' + key + '"]');
+            if (!tag) {{
+                tag = document.createElement("meta");
+                tag.setAttribute(attribute, key);
+                document.head.appendChild(tag);
+            }}
+            tag.setAttribute("content", content);
+        }}
+    }})();
+    </script>
+    """,
+    unsafe_allow_javascript=True,
 )
 
 st.markdown(
@@ -135,6 +171,7 @@ st.markdown(
         padding: 1rem clamp(.9rem, 2.5vw, 1.8rem) 1.35rem;
         margin: 1.25rem 0;
     }
+    .st-key-services_section .section-heading,
     .st-key-estimator_section .section-heading,
     .st-key-contact_section .section-heading {
         margin: 2rem 0 1.25rem;
@@ -583,6 +620,10 @@ st.markdown(
         letter-spacing: -0.02em;
         margin: 0.6rem 0;
     }
+    .st-key-services_section .section-heading h2 {
+        font-size: clamp(1.45rem, 4vw, 2.1rem);
+        line-height: 1.15;
+    }
     .section-heading p {
         max-width: 700px;
         margin: auto;
@@ -605,12 +646,12 @@ st.markdown(
     }
     .service-card {
         display: flex;
-        flex: 0 0 calc(28% - 1.25rem);
+        flex: 0 0 calc(32% - .8rem);
         scroll-snap-align: start;
         scroll-snap-stop: always;
         min-width: 0;
         flex-direction: column;
-        height: 390px;
+        height: 430px;
         overflow: hidden;
         border: 1px solid rgba(123, 164, 198, .18);
         border-top: 2px solid var(--card-accent, #35b8c2);
@@ -622,7 +663,7 @@ st.markdown(
     .service-card-image-link {
         display: block;
         min-height: 0;
-        flex: 0 0 42%;
+        flex: 0 0 44%;
         overflow: hidden;
         border-bottom: 1px solid rgba(186, 217, 241, .14);
     }
@@ -673,7 +714,7 @@ st.markdown(
         .service-preview-grid { scroll-behavior: auto; }
         .service-card, .service-card-image { transition: none; }
     }
-    .service-card h3 { margin: 0 0 .45rem; color: #f5f8fc; font-size: 1.05rem; line-height: 1.25; }
+    .service-card h3 { margin: 0 0 .45rem; color: #f5f8fc; font-size: 1.15rem; line-height: 1.25; }
     .service-card p {
         display: -webkit-box;
         overflow: hidden;
@@ -1272,7 +1313,7 @@ st.markdown(
     @media (max-width: 1050px) {
         .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         .detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-        .service-card { flex-basis: calc(37% - 1rem); }
+        .service-card { flex-basis: calc(39% - 1rem); }
     }
     @container site-header (min-width: 961px) {
         .header-nav { grid-template-columns: repeat(8, max-content); }
@@ -1325,7 +1366,7 @@ st.markdown(
         .site-header { padding: .75rem; }
         .policy-dialog { padding: 1.3rem; }
         .warranty-panels { grid-template-columns: 1fr; }
-        .service-card { flex-basis: calc(50% - 1rem); height: 360px; }
+        .service-card { flex-basis: calc(50% - 1rem); height: 400px; }
         .section-heading .service-guide { border-radius: 14px; }
     }
     @media (max-width: 480px) {
@@ -1334,7 +1375,7 @@ st.markdown(
         .footer-meta { grid-template-columns: 1fr; gap: .4rem; }
         .footer-copyright, .footer-security { font-size: .64rem; }
         .footer-version { justify-self: start; }
-        .service-card { flex-basis: 90%; height: 360px; }
+        .service-card { flex-basis: 90%; height: 400px; }
         .topbar {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
@@ -1490,9 +1531,9 @@ st.markdown(
             <span class="eyebrow">Business IT Infrastructure in Guntur</span>
             <h1>Complete Networking, Cyber Security & <span class="accent">IT Infrastructure</span></h1>
             <p class="hero-copy">
-                End-to-end IT services across Guntur and Andhra Pradesh:
-                office LAN setup, Tally data sharing, network AMC, firewall security,
-                antivirus, hardware support and Windows/Linux servers.
+                Looking for computer network or Wi-Fi setup, Tally and printer sharing, or local IT support?
+                We provide professional office LAN, network AMC, firewall and antivirus, Windows/Linux server,
+                and hardware support in Guntur and across Andhra Pradesh.
             </p>
         </div>
         <div class="status-card">
@@ -2017,8 +2058,8 @@ with st.container(key="contact_section"):
         )
 
     with contact_right:
-        name = st.text_input("👤 Your name")
-        phone = st.text_input("📱 Phone number")
+        name = st.text_input("👤 Your name", placeholder="e.g., Yashwardhan Kumar")
+        phone = st.text_input("📱 Phone number", placeholder="e.g., +91 9XXXXXXXXX")
         required_service = st.selectbox(
             "🧰 Required service",
             [
