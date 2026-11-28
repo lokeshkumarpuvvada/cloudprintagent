@@ -11,7 +11,7 @@ PHONE_LINK = "919885138489"
 ADDRESS = "Guntur - 522002, Andhra Pradesh, India"
 APP_VERSION = "1.0"
 WHATSAPP_URL = f"https://wa.me/{PHONE_LINK}"
-IMAGE_BASE = "https://lokeshkumarpuvvada.github.io/hit"
+IMAGE_BASE = "https://raw.githubusercontent.com/lokeshkumarpuvvada/cloudprintagent/main"
 PWA_NAME = "Hanvika IT Solutions"
 PWA_THEME_COLOR = "#070b17"
 SEO_DESCRIPTION = (
@@ -1502,8 +1502,17 @@ st.markdown(
     @media (max-width: 760px) {
         .detail-body { grid-template-columns: 1fr; }
         .modal-catalog-grid {
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            grid-template-columns: 1fr;
             max-height: none;
+        }
+        .modal-catalog-image {
+            width: 100%;
+            min-height: 200px;
+        }
+        .modal-catalog-image img {
+            width: 100%;
+            max-height: 260px;
+            object-fit: contain;
         }
         .hero-overview { grid-template-columns: 1fr; gap: 1rem; }
         .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
@@ -1523,7 +1532,9 @@ st.markdown(
         .footer-meta { grid-template-columns: 1fr; gap: .4rem; }
         .footer-copyright, .footer-security { font-size: .64rem; }
         .footer-version { justify-self: start; }
-        .service-card { flex-basis: 90%; height: 400px; }
+        .service-card { flex-basis: 84vw; height: 400px; }
+        .service-card-image-link { flex-basis: 190px; height: 190px; }
+        .service-card-image { width: 100%; height: 190px; object-fit: cover; object-position: center; }
         .topbar {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto;
@@ -1830,7 +1841,9 @@ service_cards = "".join(
     f'<a class="service-card-image-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" '
     f'aria-label="View {escape(title, quote=True)} details and catalog">'
     f'<img class="service-card-image" src="{IMAGE_BASE}/{escape(service_catalog_images[detail_id][0], quote=True)}" '
-    f'alt="{escape(title, quote=True)}" loading="lazy" decoding="async"></a>'
+    f'data-image="{escape(service_catalog_images[detail_id][0], quote=True)}" '
+    f'alt="{escape(title, quote=True)}" loading="eager" decoding="async" '
+    f'onerror="this.onerror=null;this.src=\'https://lokeshkumarpuvvada.github.io/hit/\'+this.dataset.image;"></a>'
     f'<div class="service-card-content"><h3>{escape(title)}</h3><p>{escape(description)}</p>'
     f'<a class="service-card-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" aria-label="View {escape(title, quote=True)} details">'
     f'<span>Learn more</span></a></div></article>'
@@ -2149,14 +2162,16 @@ for service in detailed_services:
             f'<label class="modal-image-backdrop" for="{zoom_id_html}" aria-label="Close enlarged image"></label>'
             f'<div class="modal-image-view">'
             f'<label class="modal-image-close" for="{zoom_id_html}" aria-label="Close enlarged image preview">×</label>'
-            f'<img src="{image_url}" alt="{image_title}"><p>{escape(title)}</p>'
+            f'<img src="{image_url}" data-image="{escape(image, quote=True)}" alt="{image_title}" '
+            f'onerror="this.onerror=null;this.src=\'https://lokeshkumarpuvvada.github.io/hit/\'+this.dataset.image;"><p>{escape(title)}</p>'
             f'</div></div>'
         )
         catalog_cards.append(
             f'<article class="modal-catalog-item">'
             f'<input class="catalog-zoom-toggle" id="{zoom_id_html}" type="checkbox" aria-label="Enlarge {image_title} image">'
             f'<label class="modal-catalog-image" for="{zoom_id_html}">'
-            f'<img src="{image_url}" alt="{image_title}">'
+            f'<img src="{image_url}" data-image="{escape(image, quote=True)}" alt="{image_title}" loading="eager" decoding="async" '
+            f'onerror="this.onerror=null;this.src=\'https://lokeshkumarpuvvada.github.io/hit/\'+this.dataset.image;">'
             f'<span class="catalog-zoom-hint">Click to enlarge</span></label>'
             f'<div class="modal-catalog-copy"><strong>{escape(title)}</strong>'
             f'<p>{escape(description)}</p></div>{zoom_overlay}</article>'
