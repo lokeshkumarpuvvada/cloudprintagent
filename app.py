@@ -525,6 +525,20 @@ st.markdown(
     }
     .chat-consent button:disabled { cursor: progress; opacity: .75; }
     .chat-consent button:focus-visible { outline: 2px solid #8bd5ff; outline-offset: 3px; }
+    .chat-consent.is-mobile-hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transform: translateY(1rem);
+    }
+    @media (max-width: 760px) {
+        .chat-consent {
+            right: .65rem;
+            bottom: .65rem;
+            width: calc(100vw - 1.3rem);
+            transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+        }
+    }
     .header-action:hover { transform: translateY(-1px); filter: brightness(1.08); box-shadow: 0 5px 14px rgba(0, 0, 0, .2); }
     .hero {
         position: relative;
@@ -1648,9 +1662,93 @@ st.html(
 
         panel.dataset.ready = "true";
         let chatReady = false;
+        let chatOpen = false;
+        const isMobile = () => window.matchMedia("(max-width: 760px)").matches;
+        let shownAtBottom = false;
+        let lastScrollY = window.scrollY;
+        const tidioOriginalStyles = new WeakMap();
+        const tidioSizeProperties = ["width", "max-width", "height", "max-height", "right", "bottom", "left"];
+
+        const hideMobileChatPrompt = () => {
+            if (isMobile()) panel.classList.add("is-mobile-hidden");
+        };
+        const showMobileChatPrompt = () => {
+            if (isMobile()) panel.classList.remove("is-mobile-hidden");
+        };
+        const hideTidio = () => {
+            if (window.tidioChatApi) window.tidioChatApi.hide();
+        };
+        const resizeTidioForMobile = () => {
+            if (!isMobile()) return;
+            const widget = document.getElementById("tidio-chat-iframe");
+            if (!widget) return;
+
+            if (!tidioOriginalStyles.has(widget)) {
+                tidioOriginalStyles.set(widget, tidioSizeProperties.map(property => ({
+                    property,
+                    value: widget.style.getPropertyValue(property),
+                    priority: widget.style.getPropertyPriority(property),
+                })));
+            }
+            widget.style.setProperty("width", "min(320px, calc(100vw - 24px))", "important");
+            widget.style.setProperty("max-width", "calc(100vw - 24px)", "important");
+            widget.style.setProperty("height", "min(440px, calc(100dvh - 96px))", "important");
+            widget.style.setProperty("max-height", "calc(100dvh - 96px)", "important");
+            widget.style.setProperty("right", "12px", "important");
+            widget.style.setProperty("bottom", "12px", "important");
+            widget.style.setProperty("left", "auto", "important");
+        };
+        const resetTidioMobileSize = () => {
+            const widget = document.getElementById("tidio-chat-iframe");
+            const originalStyles = widget && tidioOriginalStyles.get(widget);
+            if (!widget || !originalStyles) return;
+
+            originalStyles.forEach(({ property, value, priority }) => {
+                if (value) widget.style.setProperty(property, value, priority);
+                else widget.style.removeProperty(property);
+            });
+            tidioOriginalStyles.delete(widget);
+        };
+        const updateMobileChatVisibility = () => {
+            if (!isMobile()) {
+                panel.classList.remove("is-mobile-hidden");
+                resetTidioMobileSize();
+                return;
+            }
+            if (chatOpen) resizeTidioForMobile();
+
+            const pageBottom = document.documentElement.scrollHeight - window.innerHeight;
+            const atBottom = pageBottom > 0 && window.scrollY >= pageBottom - 160;
+            const scrollingDown = window.scrollY > lastScrollY + 4;
+
+            if (atBottom) {
+                if (!shownAtBottom) {
+                    showMobileChatPrompt();
+                    hideTidio();
+                    shownAtBottom = true;
+                }
+            } else if (scrollingDown) {
+                hideMobileChatPrompt();
+                hideTidio();
+                shownAtBottom = false;
+            } else if (window.scrollY < lastScrollY - 4 && shownAtBottom) {
+                hideMobileChatPrompt();
+                hideTidio();
+                shownAtBottom = false;
+            } else if (window.scrollY < lastScrollY - 4) {
+                hideMobileChatPrompt();
+                hideTidio();
+            }
+
+            lastScrollY = window.scrollY;
+        };
+        window.addEventListener("scroll", updateMobileChatVisibility, { passive: true });
+        window.addEventListener("resize", updateMobileChatVisibility);
+
         const openChat = () => {
             window.tidioChatApi.show();
             window.tidioChatApi.open();
+            resizeTidioForMobile();
         };
         const onChatReady = () => {
             const chat = window.tidioChatApi;
@@ -1663,15 +1761,25 @@ st.html(
 
             chatReady = true;
             chat.hide();
-            chat.on("close", () => chat.hide());
+            chat.on("open", () => {
+                chatOpen = true;
+                resizeTidioForMobile();
+            });
+            chat.on("close", () => {
+                chatOpen = false;
+                chat.hide();
+                resetTidioMobileSize();
+            });
             button.disabled = false;
             button.textContent = "Open live chat";
             status.textContent = "";
+            hideMobileChatPrompt();
             openChat();
         };
 
         button.addEventListener("click", () => {
             if (chatReady) {
+                hideMobileChatPrompt();
                 openChat();
                 return;
             }
