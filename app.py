@@ -24,6 +24,15 @@ SEO_KEYWORDS = (
     "network AMC, firewall security, antivirus support, Windows server setup, Linux server support, "
     "hardware support Guntur, IT infrastructure Andhra Pradesh"
 )
+STATIC_CATALOG_IMAGES = {"pca (1).jpeg", "pca (2).jpeg", "pca (3).jpeg"}
+
+
+def catalog_image_url(filename):
+    if filename in STATIC_CATALOG_IMAGES:
+        return f"/app/static/{quote(filename, safe='')}"
+    return f"{IMAGE_BASE}/{quote(filename, safe='')}"
+
+
 # Font Awesome Free 6.7.2 by Fonticons, Inc.; icons licensed CC BY 4.0.
 # https://fontawesome.com/license/free
 WHATSAPP_ICON = (
@@ -817,6 +826,10 @@ st.markdown(
         height: 100%;
         object-fit: cover;
         transition: transform 300ms ease;
+    }
+    .service-card-image-link .service-card-image {
+        max-width: none;
+        object-fit: cover;
     }
     .service-card-content {
         display: flex;
@@ -1830,7 +1843,7 @@ service_catalog_images = {
     "hardware-warranty-details": ("asd.jpg",),
     "os-server-details": ("wrwqr.jpg",),
     "advanced-connectivity-details": ("werewa.jpg",),
-    "offline-pc-assembly-details": ("123.jpg",),
+    "offline-pc-assembly-details": ("pca (1).jpeg", "pca (2).jpeg", "pca (3).jpeg"),
     "offline-hardware-troubleshooting-details": ("215.jpg",),
 }
 
@@ -1850,7 +1863,7 @@ service_cards = "".join(
     f'<article class="service-card" style="--card-accent:{escape(color)}">'
     f'<a class="service-card-image-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" '
     f'aria-label="View {escape(title, quote=True)} details and catalog">'
-    f'<img class="service-card-image" src="{IMAGE_BASE}/{escape(service_catalog_images[detail_id][0], quote=True)}" '
+    f'<img class="service-card-image" src="{escape(catalog_image_url(service_catalog_images[detail_id][0]), quote=True)}" '
     f'alt="{escape(title, quote=True)}" loading="eager" decoding="async"></a>'
     f'<div class="service-card-content"><h3>{escape(title)}</h3><p>{escape(description)}</p>'
     f'<a class="service-card-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" aria-label="View {escape(title, quote=True)} details">'
@@ -2147,7 +2160,9 @@ catalog = [
    ("45648.jpg", "🕵️", "Managed Security & Response", "Security monitoring, incident response and threat visibility."),
    ("6468.jpg", "🏢", "Small Office LAN & Data Sharing", "Office LAN, connected workstations and shared business data."),
    ("8648.jpg", "🛡️", "Antivirus & Internet Security", "Endpoint protection, safer browsing and online threat protection."),
-   ("123.jpg", "🖥️", "PC Assembly & Setup", "On-site desktop assembly, parts installation and initial setup."),
+   ("pca (1).jpeg", "🖥️", "Custom Gaming PC Build", "High-performance components, liquid cooling, and a multi-monitor setup."),
+   ("pca (2).jpeg", "🧰", "PC Assembly Workbench", "PC component installation and assembly on an anti-static workbench."),
+   ("pca (3).jpeg", "🎮", "Graphics Card Installation", "Graphics card alignment, installation, and power connection."),
    ("215.jpg", "🔧", "Hardware Troubleshooting", "On-site diagnosis and assistance for PCs and office hardware."),
 ]
 catalog_by_image = {image: (image, icon, title, description) for image, icon, title, description in catalog}
@@ -2193,7 +2208,7 @@ for service in detailed_services:
     for index, (image, icon, title, description) in enumerate(related_items):
         zoom_id = f"catalog-zoom-{service['id']}-{index}"
         zoom_id_html = escape(zoom_id, quote=True)
-        image_url = f"{IMAGE_BASE}/{escape(image)}"
+        image_url = escape(catalog_image_url(image), quote=True)
         image_title = escape(title, quote=True)
         zoom_overlay = (
             f'<div class="modal-image-zoom">'
