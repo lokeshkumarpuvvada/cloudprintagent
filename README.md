@@ -22,6 +22,17 @@ Set-Location "E:\git\hit"
 Check that the app is responding with `curl.exe -I http://127.0.0.1:8501`;
 a successful response includes `HTTP/1.1 200 OK`.
 
+## Run the workflow test
+
+`test_app.py` contains a minimal pytest assertion for checking that pytest runs
+in a local or GitHub Actions workflow. Pytest is not part of the app runtime
+requirements; install it in the development environment before running:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install pytest
+.\.venv\Scripts\python.exe -m pytest -q test_app.py
+```
+
 ## Deploy on Streamlit Community Cloud
 
 1. Push the repository to GitHub.
@@ -92,6 +103,8 @@ Follow this sequence for future website changes:
 
 ## Recent change record
 
+[2026-11-28] Added `test_app.py` with a sample pytest assertion to smoke-test
+  the test workflow. Verified locally: 1 test passed.
 [2026-11-28] Restarted the local Streamlit app after enabling static serving and
   verified that all three PCA image routes return JPEGs. Browser checks confirmed
   the PC Assembly & Setup card image loads with `object-fit: cover` and all three
