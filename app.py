@@ -12,6 +12,7 @@ ADDRESS = "Guntur - 522002, Andhra Pradesh, India"
 APP_VERSION = "1.0"
 WHATSAPP_URL = f"https://wa.me/{PHONE_LINK}"
 IMAGE_BASE = "https://lokeshkumarpuvvada.github.io/hit"
+GITHUB_CATALOG_IMAGE_BASE = "https://raw.githubusercontent.com/lokeshkumarpuvvada/cloudprintagent/main"
 PWA_NAME = "Hanvika IT Solutions"
 PWA_THEME_COLOR = "#070b17"
 SEO_DESCRIPTION = (
@@ -24,12 +25,12 @@ SEO_KEYWORDS = (
     "network AMC, firewall security, antivirus support, Windows server setup, Linux server support, "
     "hardware support Guntur, IT infrastructure Andhra Pradesh"
 )
-STATIC_CATALOG_IMAGES = {"pca (1).jpeg", "pca (2).jpeg", "pca (3).jpeg"}
+GITHUB_CATALOG_IMAGES = {"pca (1).jpeg", "pca (2).jpeg", "pca (3).jpeg"}
 
 
 def catalog_image_url(filename):
-    if filename in STATIC_CATALOG_IMAGES:
-        return f"/app/static/{quote(filename, safe='')}"
+    if filename in GITHUB_CATALOG_IMAGES:
+        return f"{GITHUB_CATALOG_IMAGE_BASE}/{quote(filename, safe='')}"
     return f"{IMAGE_BASE}/{quote(filename, safe='')}"
 
 

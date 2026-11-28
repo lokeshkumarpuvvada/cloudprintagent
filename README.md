@@ -24,9 +24,9 @@ a successful response includes `HTTP/1.1 200 OK`.
 
 ## Run the workflow test
 
-`test_app.py` contains a minimal pytest assertion for checking that pytest runs
-in a local or GitHub Actions workflow. Pytest is not part of the app runtime
-requirements; install it in the development environment before running:
+`test_app.py` contains a sample pytest assertion and checks that the PC Assembly
+catalog references the repository-hosted images. Pytest is not part of the app
+runtime requirements; install it in the development environment before running:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install pytest
@@ -103,8 +103,11 @@ Follow this sequence for future website changes:
 
 ## Recent change record
 
+[2026-11-28] Updated PC Assembly catalog images to use the root-level GitHub
+  repository image URLs instead of `/app/static/`; verified all three raw image
+  URLs return `200 image/jpeg`. Added a pytest assertion for the generated URLs.
 [2026-11-28] Added `test_app.py` with a sample pytest assertion to smoke-test
-  the test workflow. Verified locally: 1 test passed.
+  the test workflow. Verified locally: 1 test passed at creation.
 [2026-11-28] Restarted the local Streamlit app after enabling static serving and
   verified that all three PCA image routes return JPEGs. Browser checks confirmed
   the PC Assembly & Setup card image loads with `object-fit: cover` and all three
@@ -120,8 +123,8 @@ Follow this sequence for future website changes:
   previous raw GitHub URL returned 404. Browser verification confirmed 28/28
   images loaded.
 [2026-11-28] Added the three supplied PCA images to the PC Assembly & Setup
-  service card and catalog. These files are served from Streamlit's `/app/static/`
-  path with static serving enabled in `.streamlit/config.toml`.
+  service card and catalog. They were initially served from Streamlit's
+  `/app/static/` path; the current GitHub-hosted image URL is recorded above.
 [2026-11-28] Documented the current SEO, Open Graph, and PWA metadata in this README.
 [2026-11-28] Smoke-tested service and policy navigation, detail/policy close controls,
   and catalog image zoom. A focused review reported no exploitable issues in
@@ -133,8 +136,8 @@ Follow this sequence for future website changes:
 Service catalog images load from the verified GitHub Pages image path. The
 detail catalog uses a single-column layout on narrow screens to keep images
 readable.
-PC Assembly & Setup images are served from the app's public `static/` directory
-at `/app/static/`; static serving is enabled in `.streamlit/config.toml`.
+PC Assembly & Setup images are hosted at the root of the `cloudprintagent`
+GitHub repository and referenced through its `raw.githubusercontent.com` URLs.
 
 The Tidio live chat launcher appears on page load. On mobile, it hides while
 visitors scroll and reappears near the bottom of the page; the chat conversation
