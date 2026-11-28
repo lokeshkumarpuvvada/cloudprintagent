@@ -1158,6 +1158,29 @@ st.markdown(
         font-size: 1.5rem;
         line-height: 1;
     }
+    .modal-image-nav {
+        position: absolute;
+        top: 50%;
+        z-index: 3;
+        display: grid;
+        place-items: center;
+        width: 46px;
+        height: 46px;
+        border: 1px solid rgba(210, 233, 250, .4);
+        border-radius: 50%;
+        background: rgba(12, 27, 43, .76);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .14);
+        backdrop-filter: blur(14px);
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.8rem;
+        line-height: 1;
+        transform: translateY(-50%);
+        user-select: none;
+    }
+    .modal-image-nav:hover { background: rgba(36, 82, 105, .92); border-color: #78dfd0; }
+    .modal-image-nav-prev { left: .75rem; }
+    .modal-image-nav-next { right: .75rem; }
     @media (prefers-reduced-motion: reduce) {
         .service-card, .service-card-link { transition: none; }
         .service-card:hover { transform: none; }
@@ -1891,6 +1914,44 @@ with st.container(key="services_section"):
         """
         <script>
         (() => {
+            if (!window.__hanvikaCatalogImageNavigationReady) {
+                window.__hanvikaCatalogImageNavigationReady = true;
+                document.addEventListener("click", event => {
+                    const target = event.target instanceof Element
+                        ? event.target.closest(".modal-image-nav")
+                        : null;
+                    if (!target) return;
+
+                    const overlay = target.closest(".modal-image-zoom");
+                    if (!overlay) return;
+                    const images = JSON.parse(overlay.dataset.galleryImages);
+                    if (images.length < 2) return;
+
+                    const currentIndex = Number(overlay.dataset.galleryIndex);
+                    const step = Number(target.dataset.galleryStep);
+                    const nextIndex = currentIndex + step;
+                    const preview = overlay.querySelector(".modal-image-view img");
+                    const caption = overlay.querySelector(".modal-image-view p");
+                    if (nextIndex < 0 || nextIndex >= images.length) {
+                        const startIndex = Number(overlay.dataset.galleryStartIndex);
+                        const startImage = images[startIndex];
+                        preview.src = startImage.src;
+                        preview.alt = startImage.title;
+                        caption.textContent = startImage.title;
+                        overlay.dataset.galleryIndex = String(startIndex);
+                        const zoomToggle = overlay.closest(".modal-catalog-item")
+                            .querySelector(".catalog-zoom-toggle");
+                        zoomToggle.checked = false;
+                        return;
+                    }
+                    const image = images[nextIndex];
+                    preview.src = image.src;
+                    preview.alt = image.title;
+                    caption.textContent = image.title;
+                    overlay.dataset.galleryIndex = String(nextIndex);
+                });
+            }
+
             const initialize = () => {
                 const track = document.getElementById("service-carousel-track");
                 if (!track) return false;
@@ -2206,22 +2267,42 @@ for service in detailed_services:
         catalog_by_image[image]
         for image in dict.fromkeys(service_catalog_images[service["id"]])
     ]
+    gallery_images = escape(
+        json.dumps(
+            [
+                {"src": catalog_image_url(item[0]), "title": item[2]}
+                for item in related_items
+            ]
+        ),
+        quote=True,
+    )
     for index, (image, icon, title, description) in enumerate(related_items):
         zoom_id = f"catalog-zoom-{service['id']}-{index}"
         zoom_id_html = escape(zoom_id, quote=True)
         image_url = escape(catalog_image_url(image), quote=True)
         image_title = escape(title, quote=True)
+        image_navigation = (
+            '<button class="modal-image-nav modal-image-nav-prev" type="button" '
+            'data-gallery-step="-1" aria-label="Previous catalog image" title="Previous image">‹</button>'
+            '<button class="modal-image-nav modal-image-nav-next" type="button" '
+            'data-gallery-step="1" aria-label="Next catalog image" title="Next image">›</button>'
+            if len(related_items) > 1
+            else ""
+        )
         zoom_overlay = (
-            f'<div class="modal-image-zoom">'
+            f'<div class="modal-image-zoom" data-gallery-images="{gallery_images}" '
+            f'data-gallery-index="{index}" data-gallery-start-index="{index}">'
             f'<label class="modal-image-backdrop" for="{zoom_id_html}" aria-label="Close enlarged image"></label>'
             f'<div class="modal-image-view">'
             f'<label class="modal-image-close" for="{zoom_id_html}" aria-label="Close enlarged image preview">×</label>'
+            f'{image_navigation}'
             f'<img src="{image_url}" alt="{image_title}"><p>{escape(title)}</p>'
             f'</div></div>'
         )
         catalog_cards.append(
             f'<article class="modal-catalog-item">'
-            f'<input class="catalog-zoom-toggle" id="{zoom_id_html}" type="checkbox" aria-label="Enlarge {image_title} image">'
+            f'<input class="catalog-zoom-toggle" id="{zoom_id_html}" type="checkbox" '
+            f'aria-label="Enlarge {image_title} image">'
             f'<label class="modal-catalog-image" for="{zoom_id_html}">'
             f'<img src="{image_url}" alt="{image_title}" loading="eager" decoding="async">'
             f'<span class="catalog-zoom-hint">Click to enlarge</span></label>'

@@ -83,6 +83,8 @@ Follow this sequence for future website changes:
    possible. For new services, keep the detail IDs, cards, status-card links,
    inquiry options, and catalog images consistent. Add app-served image files
    under `static/` and keep that directory limited to public assets.
+   Catalog zoom behavior is automatic: a single image has zoom/close controls;
+   multiple images have next/previous controls and close when moved past an end.
 3. Keep site metadata, service descriptions, warranty/legal wording, and this
    README synchronized whenever their source values change. Do not invent
    contact details or commit credentials.
@@ -106,8 +108,12 @@ Follow this sequence for future website changes:
 [2026-11-28] Updated PC Assembly catalog images to use the root-level GitHub
   repository image URLs instead of `/app/static/`; verified all three raw image
   URLs return `200 image/jpeg`. Added a pytest assertion for the generated URLs.
+[2026-11-28] Added previous/next controls when zooming multiple images in the
+  any service catalog. Single-image catalogs keep zoom/close only; multi-image
+  catalogs close at either end and reopen at the thumbnail that started preview.
 [2026-11-28] Added `test_app.py` with a sample pytest assertion to smoke-test
-  the test workflow. Verified locally: 1 test passed at creation.
+  the test workflow and checks for catalog image URLs/navigation. Verified
+  locally: 2 tests passed.
 [2026-11-28] Restarted the local Streamlit app after enabling static serving and
   verified that all three PCA image routes return JPEGs. Browser checks confirmed
   the PC Assembly & Setup card image loads with `object-fit: cover` and all three
