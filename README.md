@@ -24,23 +24,56 @@ a successful response includes `HTTP/1.1 200 OK`.
 
 ## Run the workflow test
 
-`test_app.py` contains a sample pytest assertion and checks that the PC Assembly
-catalog references the repository-hosted images. Pytest is not part of the app
-runtime requirements; install it in the development environment before running:
+The pytest suite checks the public catalog, image navigation, and admin helpers.
+Pytest is not part of the app runtime requirements; install it in the development
+environment before running:
 
 ```powershell
 .\.venv\Scripts\python.exe -m pip install pytest
-.\.venv\Scripts\python.exe -m pytest -q test_app.py
+.\.venv\Scripts\python.exe -m pytest -q
 ```
 
 ## Deploy on Streamlit Community Cloud
 
 1. Push the repository to GitHub.
 2. In [Streamlit Community Cloud](https://share.streamlit.io/), create an app using repository `lokeshkumarpuvvada/cloudprintagent`, branch `main`, and entrypoint `app.py`.
-3. Use the supported Python version shown in the deployment settings. No app secrets are currently required.
+3. Use the supported Python version shown in the deployment settings. Streamlit Secrets are required for the image admin panel; the public site still works with the built-in catalog if secrets are not configured.
 4. Choose an available app subdomain, such as `hanvikaits`, to get a URL under `streamlit.app`.
 
 Community Cloud documents customizable `*.streamlit.app` subdomains, not binding a custom domain such as `hanvikaits.com`. No repository setting can attach that domain; use a Streamlit subdomain or a host that supports custom domains. The latter also requires DNS access. Never commit `.streamlit/secrets.toml`; add any future secrets through the app's Cloud settings.
+
+### Admin image panel setup
+
+The public footer's **Admin** link opens the image-management page. Sign-in sends
+a one-time code only to `1432@gmail.com` using Brevo. Codes expire after five
+minutes; the panel limits resend and verification attempts and expires the admin
+session after 30 minutes.
+
+Add these values in Streamlit Community Cloud's **App settings → Secrets**. Keep
+the actual API keys and secrets private; never commit them or paste them into
+chat:
+
+```toml
+[cloudinary]
+cloud_name = "YOUR_CLOUD_NAME"
+api_key = "YOUR_CLOUDINARY_API_KEY"
+api_secret = "YOUR_CLOUDINARY_API_SECRET"
+
+[brevo]
+api_key = "YOUR_BREVO_API_KEY"
+sender_email = "hanvikaits@gmail.com"
+```
+
+The app also accepts flat uppercase equivalents: `CLOUDINARY_CLOUD_NAME`,
+`CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, `BREVO_API_KEY`, and
+`BREVO_SENDER_EMAIL`. The Brevo sender must be verified in Brevo. Open the site's
+Admin link after saving Secrets; choose a service to replace, add, remove, or
+rename its catalog images. Each service must retain at least one image.
+
+New uploads and the service-image manifest are stored in Cloudinary. Removing an
+image removes it from the website catalog but does not delete the underlying
+Cloudinary asset. The first successful admin save creates the persistent
+manifest; until then, the current built-in GitHub-hosted catalog remains active.
 
 ## Service information
 
@@ -81,8 +114,8 @@ Follow this sequence for future website changes:
    related assets, and this README before editing.
 2. Reuse existing service details, catalog entries, styles, and helpers where
    possible. For new services, keep the detail IDs, cards, status-card links,
-   inquiry options, and catalog images consistent. Add app-served image files
-   under `static/` and keep that directory limited to public assets.
+   inquiry options, and catalog images consistent. Admin-managed images are
+   uploaded to Cloudinary; keep credentials in Streamlit Secrets.
    Catalog zoom behavior is automatic: a single image has zoom/close controls;
    multiple images have next/previous controls and close when moved past an end.
 3. Keep site metadata, service descriptions, warranty/legal wording, and this
@@ -114,6 +147,8 @@ Follow this sequence for future website changes:
 [2026-11-28] Added `test_app.py` with a sample pytest assertion to smoke-test
   the test workflow and checks for catalog image URLs/navigation. Verified
   locally: 2 tests passed.
+[2026-11-28] Added an OTP-protected service image admin panel backed by Cloudinary
+  and Brevo. Image edits persist as a Cloudinary manifest; focused tests pass.
 [2026-11-28] Restarted the local Streamlit app after enabling static serving and
   verified that all three PCA image routes return JPEGs. Browser checks confirmed
   the PC Assembly & Setup card image loads with `object-fit: cover` and all three

@@ -4,6 +4,8 @@ from html import escape
 from urllib.parse import quote
 
 import streamlit as st
+from catalog_admin import CatalogStorageError, load_service_catalog, render_admin_panel
+from catalog_data import DEFAULT_SERVICE_CATALOG, SERVICE_NAMES, SERVICES
 
 COPYRIGHT_YEAR = date.today().year
 PHONE_DISPLAY = "+91 9885138489"
@@ -11,8 +13,6 @@ PHONE_LINK = "919885138489"
 ADDRESS = "Guntur - 522002, Andhra Pradesh, India"
 APP_VERSION = "1.0"
 WHATSAPP_URL = f"https://wa.me/{PHONE_LINK}"
-IMAGE_BASE = "https://lokeshkumarpuvvada.github.io/hit"
-GITHUB_CATALOG_IMAGE_BASE = "https://raw.githubusercontent.com/lokeshkumarpuvvada/cloudprintagent/main"
 PWA_NAME = "Hanvika IT Solutions"
 PWA_THEME_COLOR = "#070b17"
 SEO_DESCRIPTION = (
@@ -25,13 +25,6 @@ SEO_KEYWORDS = (
     "network AMC, firewall security, antivirus support, Windows server setup, Linux server support, "
     "hardware support Guntur, IT infrastructure Andhra Pradesh"
 )
-GITHUB_CATALOG_IMAGES = {"pca (1).jpeg", "pca (2).jpeg", "pca (3).jpeg"}
-
-
-def catalog_image_url(filename):
-    if filename in GITHUB_CATALOG_IMAGES:
-        return f"{GITHUB_CATALOG_IMAGE_BASE}/{quote(filename, safe='')}"
-    return f"{IMAGE_BASE}/{quote(filename, safe='')}"
 
 
 # Font Awesome Free 6.7.2 by Fonticons, Inc.; icons licensed CC BY 4.0.
@@ -54,6 +47,21 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
+
+if st.query_params.get("admin") == "1":
+    try:
+        admin_catalog = load_service_catalog(DEFAULT_SERVICE_CATALOG)
+    except CatalogStorageError as error:
+        st.error(str(error))
+        st.stop()
+    render_admin_panel(admin_catalog, SERVICE_NAMES)
+    st.stop()
+
+try:
+    service_catalog = load_service_catalog(DEFAULT_SERVICE_CATALOG)
+except CatalogStorageError as error:
+    service_catalog = DEFAULT_SERVICE_CATALOG
+    st.warning(f"Could not load the latest service images: {error}")
 
 st.html(
     f"""
@@ -1859,40 +1867,16 @@ st.markdown(
 )
 
 
-service_catalog_images = {
-    "cyber-security-details": ("45648.jpg",),
-    "office-lan-details": ("6468.jpg",),
-    "network-amc-details": ("2313.jpg",),
-    "antivirus-details": ("8648.jpg",),
-    "hardware-warranty-details": ("asd.jpg",),
-    "os-server-details": ("wrwqr.jpg",),
-    "advanced-connectivity-details": ("werewa.jpg",),
-    "offline-pc-assembly-details": ("pca (1).jpeg", "pca (2).jpeg", "pca (3).jpeg"),
-    "offline-hardware-troubleshooting-details": ("215.jpg",),
-}
-
-services = [
-    ("Cyber Security", "Firewall, VPN, access rules and threat monitoring.", "#ff7c83", "cyber-security-details"),
-    ("Office LAN", "Cabling, Wi-Fi, Tally, printer and file sharing.", "#54c7e8", "office-lan-details"),
-    ("Network AMC", "Routine health checks, troubleshooting and maintenance.", "#a78bfa", "network-amc-details"),
-    ("Antivirus", "Endpoint protection, malware cleanup and safer browsing.", "#f5b95f", "antivirus-details"),
-    ("Windows & Linux", "Workstations, business servers and Linux support.", "#67d6a5", "os-server-details"),
-    ("Advanced Connectivity", "Mesh Wi-Fi, P2P links, branch VPN and multi-WAN.", "#ff8fc9", "advanced-connectivity-details"),
-    ("Hardware Warranty", "Registration, coverage checks and claim guidance.", "#67d6a5", "hardware-warranty-details"),
-    ("PC Assembly & Setup", "On-site desktop assembly, parts installation, and initial setup.", "#54c7e8", "offline-pc-assembly-details"),
-    ("Hardware Troubleshooting", "On-site diagnosis and repair assistance for PCs and office hardware.", "#f5b95f", "offline-hardware-troubleshooting-details"),
-]
-
 service_cards = "".join(
     f'<article class="service-card" style="--card-accent:{escape(color)}">'
     f'<a class="service-card-image-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" '
     f'aria-label="View {escape(title, quote=True)} details and catalog">'
-    f'<img class="service-card-image" src="{escape(catalog_image_url(service_catalog_images[detail_id][0]), quote=True)}" '
+    f'<img class="service-card-image" src="{escape(service_catalog[detail_id][0]["url"], quote=True)}" '
     f'alt="{escape(title, quote=True)}" loading="eager" decoding="async"></a>'
     f'<div class="service-card-content"><h3>{escape(title)}</h3><p>{escape(description)}</p>'
     f'<a class="service-card-link" href="#{escape(detail_id, quote=True)}" aria-haspopup="dialog" aria-label="View {escape(title, quote=True)} details">'
     f'<span>Learn more</span></a></div></article>'
-    for title, description, color, detail_id in services
+    for title, description, color, detail_id in SERVICES
 )
 
 with st.container(key="services_section"):
@@ -2214,20 +2198,6 @@ detailed_services = [
     },
 ]
 
-catalog = [
-   ("werewa.jpg", "📡", "Advanced Site Networking", "Headquarters LAN, branch VPN, P2P antennas and mesh Wi-Fi."),
-   ("wrwqr.jpg", "🪟", "Windows OS Infrastructure", "Windows Server, hybrid security and workstation support."),
-   ("asd.jpg", "🛠️", "Hardware Warranty Support", "Registration, validity checks and service ticket assistance."),
-   ("2313.jpg", "🔧", "Office Network AMC", "On-site support, health checks and Tally data sharing."),
-   ("45648.jpg", "🕵️", "Managed Security & Response", "Security monitoring, incident response and threat visibility."),
-   ("6468.jpg", "🏢", "Small Office LAN & Data Sharing", "Office LAN, connected workstations and shared business data."),
-   ("8648.jpg", "🛡️", "Antivirus & Internet Security", "Endpoint protection, safer browsing and online threat protection."),
-   ("pca (1).jpeg", "🖥️", "Custom Gaming PC Build", "High-performance components, liquid cooling, and a multi-monitor setup."),
-   ("pca (2).jpeg", "🧰", "PC Assembly Workbench", "PC component installation and assembly on an anti-static workbench."),
-   ("pca (3).jpeg", "🎮", "Graphics Card Installation", "Graphics card alignment, installation, and power connection."),
-   ("215.jpg", "🔧", "Hardware Troubleshooting", "On-site diagnosis and assistance for PCs and office hardware."),
-]
-catalog_by_image = {image: (image, icon, title, description) for image, icon, title, description in catalog}
 detail_modals = []
 for service in detailed_services:
     feature_markup = "".join(
@@ -2263,23 +2233,22 @@ for service in detailed_services:
     else:
         service_content = f'<div class="detail-grid">{feature_markup}</div>{tags_section}'
     catalog_cards = []
-    related_items = [
-        catalog_by_image[image]
-        for image in dict.fromkeys(service_catalog_images[service["id"]])
-    ]
+    related_items = service_catalog[service["id"]]
     gallery_images = escape(
         json.dumps(
             [
-                {"src": catalog_image_url(item[0]), "title": item[2]}
+                {"src": item["url"], "title": item["title"]}
                 for item in related_items
             ]
         ),
         quote=True,
     )
-    for index, (image, icon, title, description) in enumerate(related_items):
+    for index, item in enumerate(related_items):
+        title = item["title"]
+        description = item["description"]
         zoom_id = f"catalog-zoom-{service['id']}-{index}"
         zoom_id_html = escape(zoom_id, quote=True)
-        image_url = escape(catalog_image_url(image), quote=True)
+        image_url = escape(item["url"], quote=True)
         image_title = escape(title, quote=True)
         image_navigation = (
             '<button class="modal-image-nav modal-image-nav-prev" type="button" '
@@ -2518,10 +2487,13 @@ st.markdown(
                     <h4 id="privacy-policy-title">🔒 Privacy Policy</h4>
                     <p><strong>Effective date:</strong> November 27, 2026.</p>
                     <p>
-                        This website is for advertising and showcasing Hanvika IT Solutions services. It has no database
-                        and does not use analytics or advertising trackers. Inquiry form details are used in your
+                        This website is for advertising and showcasing Hanvika IT Solutions services. It does not store
+                        customer inquiry details in an application database. Inquiry form details are used in your
                         browser to prepare a WhatsApp message; nothing is sent to Hanvika IT Solutions unless you choose
-                        to contact us directly. The Tidio chat widget loads when this page opens and may process page,
+                        to contact us directly. Service catalog images and their display metadata are stored in
+                        Cloudinary when changed through the admin panel. Admin sign-in sends a one-time code through
+                        Brevo to the configured administrator email; temporary verification state is held only in the
+                        active app session. The Tidio chat widget loads when this page opens and may process page,
                         device, and chat data under its
                         <a href="https://www.tidio.com/privacy-policy/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
                     </p>
@@ -2534,9 +2506,9 @@ st.markdown(
                     <p>
                         The hosting provider may create standard access logs and automatically purges them under its
                         retention practices. The page requests fonts from Google Fonts and displays images hosted on
-                        GitHub Pages; these providers may receive standard connection data. Google Fonts and GitHub
-                        Pages assets are used only to display this website. WhatsApp and phone icons use Font Awesome
-                        Free 6.7.2 by Fonticons, Inc., under the
+                        GitHub Pages and Cloudinary; these providers may receive standard connection data. Brevo
+                        processes admin OTP email delivery. These services are used to operate and display the website.
+                        WhatsApp and phone icons use Font Awesome Free 6.7.2 by Fonticons, Inc., under the
                         <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0 license</a>;
                         see <a href="https://fontawesome.com/license/free" target="_blank" rel="noopener noreferrer">Font Awesome Free</a>.
                     </p>
@@ -2596,6 +2568,7 @@ st.markdown(
                 <a class="policy-trigger" href="#terms-conditions-details">📄 Terms &amp; Conditions</a>
                 <a class="policy-trigger" href="#refund-policy-details">↩️ Refund Policy</a>
                 <a class="policy-trigger" href="#security-disclaimer-details">🛡️ Security Disclaimer</a>
+                <a href="?admin=1">🔐 Admin</a>
                 <a href="#home">🏠 Back to top ↑</a>
             </div>
             <div class="footer-meta">
