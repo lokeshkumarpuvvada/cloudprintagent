@@ -1,6 +1,7 @@
 import hashlib
 import json
 from types import SimpleNamespace
+from urllib.error import HTTPError
 
 import pytest
 
@@ -85,3 +86,19 @@ def test_brevo_otp_is_sent_only_to_configured_admin(monkeypatch):
     assert payload["to"] == [{"email": catalog_admin.ADMIN_EMAIL}]
     assert "123456" in payload["textContent"]
     assert sent["timeout"] == 10
+
+
+def test_brevo_401_error_identifies_api_key_problem(monkeypatch):
+    monkeypatch.setattr(
+        catalog_admin,
+        "_brevo_settings",
+        lambda: {"api_key": "test-key", "sender_email": "sender@example.com"},
+    )
+
+    def reject_request(request, timeout):
+        raise HTTPError(request.full_url, 401, "Unauthorized", None, None)
+
+    monkeypatch.setattr(catalog_admin, "urlopen", reject_request)
+
+    with pytest.raises(catalog_admin.AdminAuthenticationError, match="API key is invalid"):
+        catalog_admin._send_otp_email("123456")

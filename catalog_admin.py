@@ -15,7 +15,7 @@ import cloudinary.uploader
 import streamlit as st
 from streamlit.errors import StreamlitSecretNotFoundError
 
-ADMIN_EMAIL = "1432@gmail.com"
+ADMIN_EMAIL = "hanvikaits@gmail.com"
 DEFAULT_SENDER_EMAIL = "hanvikaits@gmail.com"
 MANIFEST_PUBLIC_ID = "hanvika/catalog-manifest.json"
 MAX_IMAGE_BYTES = 10 * 1024 * 1024
@@ -266,8 +266,13 @@ def _send_otp_email(code):
                     f"Brevo rejected the OTP email (HTTP {response.status})."
                 )
     except HTTPError as error:
+        if error.code == 401:
+            raise AdminAuthenticationError(
+                "Brevo returned HTTP 401: the API key is invalid or unauthorized. "
+                "Check that Streamlit Secrets contains a valid Brevo v3 API key."
+            ) from error
         raise AdminAuthenticationError(
-            f"Brevo rejected the OTP email (HTTP {error.code}); check sender verification."
+            f"Brevo rejected the OTP email (HTTP {error.code}); check the verified sender and API permissions."
         ) from error
     except URLError as error:
         raise AdminAuthenticationError("Could not reach Brevo to send the OTP email.") from error

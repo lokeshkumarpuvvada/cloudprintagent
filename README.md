@@ -45,7 +45,7 @@ Community Cloud documents customizable `*.streamlit.app` subdomains, not binding
 ### Admin image panel setup
 
 The public footer's **Admin** link opens the image-management page. Sign-in sends
-a one-time code only to `1432@gmail.com` using Brevo. Codes expire after five
+a one-time code only to `hanvikaits@gmail.com` using Brevo. Codes expire after five
 minutes; the panel limits resend and verification attempts and expires the admin
 session after 30 minutes.
 
