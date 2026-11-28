@@ -513,6 +513,12 @@ st.markdown(
         box-sizing: border-box;
         margin-top: clamp(1.25rem, 2.5vw, 2rem);
     }
+    @media (min-width: 761px) {
+        .hero-overview > .hero,
+        .hero-overview > .status-card {
+            height: 100%;
+        }
+    }
     .hero::after {
         content: "";
         position: absolute;
