@@ -723,7 +723,7 @@ st.markdown(
         font-size: 0.75rem;
         font-weight: 800;
     }
-    .status-onsite-label { display: flex; justify-content: flex-end; }
+    .status-header-actions { display: flex; align-items: center; gap: .38rem; flex: 0 0 auto; }
     .onsite {
         display: inline-flex;
         align-items: center;
@@ -1759,7 +1759,10 @@ st.markdown(
                     <span class="status-light green" aria-hidden="true"></span>
                     <span class="status-label">hanvika-it-status</span>
                 </div>
-                <span class="online"><span class="online-dot" aria-hidden="true"></span>ONLINE</span>
+                <div class="status-header-actions" aria-label="Service availability">
+                    <span class="online"><span class="online-dot" aria-hidden="true"></span>ONLINE</span>
+                    <span class="onsite"><span class="onsite-dot" aria-hidden="true"></span>ON-SITE</span>
+                </div>
             </div>
             <div class="status-rows">
                 <a class="status-row" href="#cyber-security-details" aria-haspopup="dialog" aria-label="View Firewall and Cyber Security details and related catalog" style="--status-accent:#ff8b98">
@@ -1786,7 +1789,6 @@ st.markdown(
                     <span class="status-check" aria-label="Available">✓</span>
                     <span class="status-link-indicator" aria-hidden="true">↗</span>
                 </a>
-                <div class="status-onsite-label"><span class="onsite"><span class="onsite-dot" aria-hidden="true"></span>ON-SITE</span></div>
                 <a class="status-row" href="#offline-pc-assembly-details" aria-haspopup="dialog" aria-label="View Offline PC Assembly and Setup details and related catalog" style="--status-accent:#54c7e8">
                     <span class="status-icon" aria-hidden="true">🖥️</span>
                     <span class="status-copy"><strong>Offline: PC Assembly &amp; Setup</strong><small>On-site assembly and initial system setup</small></span>
