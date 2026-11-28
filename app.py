@@ -723,6 +723,27 @@ st.markdown(
         font-size: 0.75rem;
         font-weight: 800;
     }
+    .status-onsite-label { display: flex; justify-content: flex-end; }
+    .onsite {
+        display: inline-flex;
+        align-items: center;
+        gap: .38rem;
+        flex: 0 0 auto;
+        color: #f5b95f;
+        background: rgba(245, 185, 95, 0.11);
+        border: 1px solid rgba(245, 185, 95, 0.18);
+        border-radius: 999px;
+        padding: 0.28rem 0.55rem;
+        font-size: 0.75rem;
+        font-weight: 800;
+    }
+    .onsite-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #f5b95f;
+        box-shadow: 0 0 10px rgba(245, 185, 95, .72);
+    }
     .section-heading {
         text-align: center;
         margin: 4.5rem 0 2rem;
@@ -1765,6 +1786,19 @@ st.markdown(
                     <span class="status-check" aria-label="Available">✓</span>
                     <span class="status-link-indicator" aria-hidden="true">↗</span>
                 </a>
+                <div class="status-onsite-label"><span class="onsite"><span class="onsite-dot" aria-hidden="true"></span>ON-SITE</span></div>
+                <a class="status-row" href="#offline-pc-assembly-details" aria-haspopup="dialog" aria-label="View Offline PC Assembly and Setup details and related catalog" style="--status-accent:#54c7e8">
+                    <span class="status-icon" aria-hidden="true">🖥️</span>
+                    <span class="status-copy"><strong>Offline: PC Assembly &amp; Setup</strong><small>On-site assembly and initial system setup</small></span>
+                    <span class="status-check" aria-label="Available">✓</span>
+                    <span class="status-link-indicator" aria-hidden="true">↗</span>
+                </a>
+                <a class="status-row" href="#offline-hardware-troubleshooting-details" aria-haspopup="dialog" aria-label="View Offline Hardware Troubleshooting details and related catalog" style="--status-accent:#f5b95f">
+                    <span class="status-icon" aria-hidden="true">🔧</span>
+                    <span class="status-copy"><strong>Offline: Hardware Troubleshooting</strong><small>On-site diagnosis and repair assistance</small></span>
+                    <span class="status-check" aria-label="Available">✓</span>
+                    <span class="status-link-indicator" aria-hidden="true">↗</span>
+                </a>
             </div>
             <div class="status-footer">
                 <p>Need immediate network setup or AMC support in Guntur?</p>
@@ -1788,6 +1822,8 @@ service_catalog_images = {
     "hardware-warranty-details": ("asd.jpg",),
     "os-server-details": ("wrwqr.jpg",),
     "advanced-connectivity-details": ("werewa.jpg",),
+    "offline-pc-assembly-details": ("123.jpg",),
+    "offline-hardware-troubleshooting-details": ("215.jpg",),
 }
 
 services = [
@@ -1798,6 +1834,8 @@ services = [
     ("Windows & Linux", "Workstations, business servers and Linux support.", "#67d6a5", "os-server-details"),
     ("Advanced Connectivity", "Mesh Wi-Fi, P2P links, branch VPN and multi-WAN.", "#ff8fc9", "advanced-connectivity-details"),
     ("Hardware Warranty", "Registration, coverage checks and claim guidance.", "#67d6a5", "hardware-warranty-details"),
+    ("PC Assembly & Setup", "On-site desktop assembly, parts installation, and initial setup.", "#54c7e8", "offline-pc-assembly-details"),
+    ("Hardware Troubleshooting", "On-site diagnosis and repair assistance for PCs and office hardware.", "#f5b95f", "offline-hardware-troubleshooting-details"),
 ]
 
 service_cards = "".join(
@@ -2022,7 +2060,7 @@ detailed_services = [
         "icon": "🛠️",
         "category": "Warranty Support",
         "title": "IT Hardware Warranty Guidance",
-        "intro": "Technical and administrative assistance for warranty registration, coverage checks, and claim preparation.",
+        "intro": "Hanvika IT Solutions provides administrative guidance only for warranty registration, coverage information, documentation, and claim preparation.",
         "color": "#67d6a5",
         "features": [
             ("📝", "Registration Assistance", "Guidance with product warranty registration."),
@@ -2034,7 +2072,35 @@ detailed_services = [
         ],
         "tags_title": "Supported devices",
         "tags": ["Laptops", "Inkjet printers", "Desktop PCs", "Laser printers", "All-in-One systems", "Scanners", "Monitors", "Multi-Function devices"],
-        "notice": "Warranty terms, coverage, and claim approval are decided by the product manufacturer. Hanvika IT Solutions provides guidance and administrative assistance only.",
+        "notice": "Hanvika IT Solutions provides administrative guidance only. All warranty terms, coverage, and claim approvals are determined solely by the respective hardware manufacturers. Our services do not modify or conflict with official manufacturer policies.",
+    },
+    {
+        "id": "offline-pc-assembly-details",
+        "icon": "🖥️",
+        "category": "Offline Services",
+        "title": "PC Assembly & Setup",
+        "intro": "On-site desktop and workstation assembly, parts installation, and initial system setup.",
+        "color": "#54c7e8",
+        "features": [
+            ("🧩", "Custom PC Assembly", "Assembly of compatible components for office or personal desktop systems."),
+            ("🔌", "Hardware Installation", "Installation and connection of drives, RAM, graphics cards, power supplies, and peripherals."),
+            ("⚙️", "System Setup", "Basic BIOS, operating system, driver, and required software setup."),
+            ("🧪", "Power-On & Hardware Check", "Post-assembly checks for normal startup, device recognition, and basic stability."),
+        ],
+    },
+    {
+        "id": "offline-hardware-troubleshooting-details",
+        "icon": "🔧",
+        "category": "Offline Services",
+        "title": "Hardware Troubleshooting",
+        "intro": "On-site diagnosis and practical repair assistance for desktops, laptops, printers, and office hardware.",
+        "color": "#f5b95f",
+        "features": [
+            ("🔎", "Fault Diagnosis", "Initial inspection and diagnosis of startup, display, power, storage, and peripheral issues."),
+            ("🧰", "Component-Level Assistance", "Help identify faulty parts and determine suitable repair or replacement options."),
+            ("🖨️", "Peripheral Support", "Troubleshooting for printers, scanners, monitors, keyboards, and other local devices."),
+            ("🧹", "Cleaning & Preventive Care", "Dust cleaning and basic preventive checks subject to device access and condition."),
+        ],
     },
     {
         "id": "os-server-details",
@@ -2075,6 +2141,8 @@ catalog = [
    ("45648.jpg", "🕵️", "Managed Security & Response", "Security monitoring, incident response and threat visibility."),
    ("6468.jpg", "🏢", "Small Office LAN & Data Sharing", "Office LAN, connected workstations and shared business data."),
    ("8648.jpg", "🛡️", "Antivirus & Internet Security", "Endpoint protection, safer browsing and online threat protection."),
+   ("123.jpg", "🖥️", "PC Assembly & Setup", "On-site desktop assembly, parts installation and initial setup."),
+   ("215.jpg", "🔧", "Hardware Troubleshooting", "On-site diagnosis and assistance for PCs and office hardware."),
 ]
 catalog_by_image = {image: (image, icon, title, description) for image, icon, title, description in catalog}
 detail_modals = []
@@ -2268,6 +2336,9 @@ with st.container(key="contact_section"):
                 "🖥️ Windows / Linux Server",
                 "📡 Advanced Networking",
                 "🛠️ Hardware Warranty",
+                "🧰 Offline Services",
+                "🖥️ PC Assembly & Setup",
+                "🔧 Hardware Troubleshooting",
             ],
         )
         details = st.text_area("📝 Details / message", height=130)
